@@ -14,8 +14,6 @@ try:
 except FileNotFoundError:
     num_courses = 0
 
-course_entries = []  # List to store the entry fields for courses
-course_labels = []  # List to store the labels for course names
 
 def enter_button_clicked():
     global num_courses
