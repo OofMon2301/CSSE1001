@@ -41,11 +41,22 @@ def enter_button_clicked():
         course_entry.pack()
         course_entries.append(course_entry)
 
-    # Save Button
-    save_button = customtkinter.CTkButton(app, text="Save", command=save_courses, font=("Arial", 20), width=15, height=2)
-    save_button.pack(pady=20)
+    # Continue Button
+    continue_button = customtkinter.CTkButton(app, text="Continue", command=show_course_overview, font=("Arial", 20), width=15, height=2)
+    continue_button.pack(pady=20)
 
-def save_courses():
+def load_courses():
+    # Read the previously saved course names
+    try:
+        with open("course_names.txt", "r") as file:
+            course_names = file.readlines()
+        course_names = [name.strip() for name in course_names]
+    except FileNotFoundError:
+        course_names = []
+
+    return course_names
+
+def show_course_overview():
     course_names = [entry.get() for entry in course_entries]
 
     # Save the course names to a file
@@ -60,29 +71,21 @@ def save_courses():
         entry.pack_forget()
 
     # Create Overview with Course Buttons
-    for i, course_name in enumerate(course_names):
-        course_button = customtkinter.CTkButton(app, text=course_name, font=("Arial", 15), width=20, height=2)
-        course_button.pack(side="left", padx=10, pady=10)
+    create_course_overview(course_names)
 
-        add_assignment_button = customtkinter.CTkButton(app, text="Add Assignment", font=("Arial", 12), width=15)
-        add_assignment_button.pack(side="left", padx=10, pady=10)
-
-def load_courses():
-    # Read the previously saved course names
-    try:
-        with open("course_names.txt", "r") as file:
-            course_names = file.readlines()
-        course_names = [name.strip() for name in course_names]
-    except FileNotFoundError:
-        course_names = []
+def create_course_overview(course_names):
+    unique_course_names = list(set(course_names))  # Remove duplicates
 
     # Create Overview with Course Buttons
-    for i, course_name in enumerate(course_names):
-        course_button = customtkinter.CTkButton(app, text=course_name, font=("Arial", 15), width=20, height=2)
-        course_button.pack(side="left", padx=10, pady=10)
+    for i, course_name in enumerate(unique_course_names):
+        course_frame = customtkinter.CTkFrame(app)
+        course_frame.pack(padx=10, pady=10)
 
-        add_assignment_button = customtkinter.CTkButton(app, text="Add Assignment", font=("Arial", 12), width=15)
-        add_assignment_button.pack(side="left", padx=10, pady=10)
+        course_button = customtkinter.CTkButton(course_frame, text=course_name, font=("Arial", 15), width=20, height=2)
+        course_button.pack()
+
+        add_assignment_button = customtkinter.CTkButton(course_frame, text="Add Assignment", font=("Arial", 12), width=15)
+        add_assignment_button.pack()
 
 # Update the UI for enter_button
 enter_button = customtkinter.CTkButton(app, text="Enter", command=enter_button_clicked, font=("Arial", 15))
@@ -98,7 +101,6 @@ link.insert(0, str(num_courses))  # Pre-fill the input field with the loaded val
 link.pack()
 
 # Enter Button
-enter_button = customtkinter.CTkButton(app, text="Enter", command=enter_button_clicked, font=("Arial", 15))
 enter_button.pack(padx=10, pady=15)
 
 # System Settings
@@ -106,7 +108,13 @@ customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 # Load the saved course information
-load_courses()
+course_names = load_courses()
+
+# Check if the course editing page should be shown
+if course_names:
+    show_course_overview()
+else:
+    enter_button_clicked()
 
 # Run App
 app.mainloop()
