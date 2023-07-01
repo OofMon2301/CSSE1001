@@ -15,6 +15,7 @@ except FileNotFoundError:
     num_courses = 0
 
 course_entries = []  # List to store the entry fields for courses
+course_labels = []  # List to store the labels for course names
 
 def enter_button_clicked():
     global num_courses
@@ -29,15 +30,15 @@ def enter_button_clicked():
     link.pack_forget()
     enter_button.pack_forget()
 
-    # Create Entry Fields for each Course
+    # Create Entry Fields and Labels for each Course
     for i in range(num_courses):
         course_label = customtkinter.CTkLabel(app, text=f"Course {i+1}:", font=("Arial", 15))
         course_label.pack(pady=5)
+        course_labels.append(course_label)
 
         course_entry = customtkinter.CTkEntry(app, width=450, height=40, font=("Arial", 15))
         course_entry.insert(0, f"Course {i+1}")  # Pre-fill the entry with course name
         course_entry.pack()
-
         course_entries.append(course_entry)
 
     # Save Button
@@ -51,6 +52,10 @@ def save_courses():
     with open("course_names.txt", "w") as file:
         for course_name in course_names:
             file.write(course_name + "\n")
+
+    # Update the labels with the edited course names
+    for i in range(num_courses):
+        course_labels[i].configure(text=course_names[i])
 
 # Update the UI for enter_button
 enter_button = customtkinter.CTkButton(app, text="Enter", command=enter_button_clicked, font=("Arial", 15))
