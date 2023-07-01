@@ -1,0 +1,42 @@
+Grade calculator for The University of Queensland.
+Use python.
+First prompt wants your name, and then asks for the number of courses that you study.
+Based on number of courses that they study, ask them to input all of them individually.
+Then, ask them to input the number of units for each course.
+Show the 'dashboard' of all the courses that they study, and have a button to add more courses and a button to add their grades. 
+Have 4 buttons that are 'add course', 'add grade', 'change weightage', and 'change number of assignments'.
+Have it so that when you click on the title of the course, it expands to show a detailed view of their grades and progress.
+Within the expanded course, include 4 buttons that ask whether there are Mid-Semester Exam Hurdles, Mid-Semester Exam, Final Exam Hurdles, and Final Exam.
+If the answer for the existence of the exam is no, then the button should be greyed out.
+If the answer for the existence of the exam is yes, then ask whether there are any hurdles.
+If the answer for the existence of the hurdles is no, then the button should be greyed out.
+If the answer for the existence of the hurdles is yes, then ask if the exam was split into parts A and B.
+If the answer for the existence of the parts is no, then the button should be greyed out.
+If the answer for the existence of the parts is yes, then ask for the hurdle/requirement for each part to pass the course.
+This should be applied for both the mid-semester exam and the final exam.
+Each course should have at least 4 assignments, and each assignment should have a weightage.
+The weightage and the grade should be used to calculate the GPA.
+The GPA should be displayed on the dashboard.
+The weightage should be displayed on the dashboard.
+The weightage can also be changed on the dashboard.
+There should be a button to change the number of assignments for each course.
+Then, ask them to input the grade for each course.
+The grade should be displayed on the dashboard.
+The grade can also be changed on the dashboard.
+The grades are calculated from 1 to 7, and are calculated based on the percentage of the total grade.
+Grade of 1 is if their total score of the course is less than 20%.
+Grade of 2 is if their total score of the course is between 20% and less than 45%.
+Grade of 3 is if their total score of the course is between 45% and less than 50%.
+Grade of 4 is if their total score of the course is between 50% and less than 65%.
+Grade of 5 is if their total score of the course is between 65% and less than 75%.
+Grade of 6 is if their total score of the course is between 75% and less than 85%.
+Grade of 7 is if their total score of the course is at least 85%.
+
+Please ask at the dashboard the overall percentage for each course in order for them to pass the course.
+If they have passed the course, then show that they have passed the course and show their grade.
+If they have not passed the course, then show that they have failed the course.
+If the course has a mid semester exam, but they did not pass the hurdles required (if any), then check whether they have a final exam hurdle and whether they have passed it.
+If they have passed the final exam hurdle, then show that they have passed the course and show their grade.
+If they have not passed the final exam hurdle, then show that they have failed the course.
+If the course has a final exam, but they did not pass the hurdles required (if any), then show that they have failed the course.
+If the course has a mid semester exam, and they have passed the hurdles required (if any), then they pass the course regardless of the final exam results and show the grade.
