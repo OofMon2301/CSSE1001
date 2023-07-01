@@ -7,8 +7,20 @@ app.geometry("1280x720")
 app.title("Uni Calculator")
 app.resizable(True, True)
 
+# Read the previously saved value
+try:
+    with open("course_info.txt", "r") as file:
+        num_courses = int(file.read())
+except FileNotFoundError:
+    num_courses = 0
+
 def enter_button_clicked():
+    global num_courses
     num_courses = int(link.get())
+
+    # Save the updated value to a file
+    with open("course_info.txt", "w") as file:
+        file.write(str(num_courses))
 
     # Destroy Previous Page
     title.pack_forget()
@@ -30,6 +42,7 @@ title.pack(padx=10, pady=10)
 # Inputs
 url_var = tkinter.StringVar()
 link = customtkinter.CTkEntry(app, width=450, height=40, textvariable=url_var, font=("Arial", 15))
+link.insert(0, str(num_courses))  # Pre-fill the input field with the loaded value
 link.pack()
 
 # Enter Button
