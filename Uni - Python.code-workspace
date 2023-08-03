@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "../ENGG1100"
+		},
+		{
+			"path": "../MATH1050"
+		},
+		{
+			"path": "../MATH1061"
+		},
+		{
+			"path": "../MATH1051"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../ENGG1300"
+		},
+		{
+			"path": "../Work"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "CSSE1001"
+	}
+}

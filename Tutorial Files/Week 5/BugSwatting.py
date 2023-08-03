@@ -11,11 +11,10 @@ def is_prime(n):
         n > 1
     """
     for i in range(2, n):
-        # Check if i is a factor of n
+        # Check if i is prime
         if n % i == 0:
             return False
-        else:
-            return True
+    return True
 
 
 def get_primes(n):
@@ -30,14 +29,16 @@ def get_primes(n):
     Preconditions:
         n > 0
     """
-    # List
-    primes = [""]
+    primes = []
     i = 2
     while len(primes) < n:
-        if is_prime(i):
+        if is_prime(i) is True:
             primes.append(i)
-            i += 1
+        else:
+            pass
+        i += 1
+    return primes
 
 
 n = int(input("How many primes? "))
-print("The first" + str(n) + "primes are:", primes)
+print("The first " + str(n) + " primes are: ", get_primes(n))

@@ -27,14 +27,23 @@ SCRABBLE_VALUES = (
     ("z", 10),
 )
 
+
 # Write your Scrabble code below
+def read_scores():
+    """Takes tuple into argument and create dictionary."""
+    scores = {}
+    for letter, value in SCRABBLE_VALUES:
+        scores[letter] = value
+    return scores
 
 
 def get_score(scores, word):
     """Returns the score of the word."""
     score = 0
     for char in word:
-        for letter, value in scores:
-            if char == letter:
-                score += value
+        score += scores[char]
     return score
+
+
+wordguess = input("Enter a word you want to check: ")
+print(get_score(read_scores(), wordguess))
