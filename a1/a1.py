@@ -5,6 +5,7 @@ Board = list[list[str]]
 Pieces = list[int]
 Move = tuple[int, int, int]
 
+
 # Write your functions here
 def num_hours() -> float:
     """Return the number of hours you spent on this assignment.
@@ -13,6 +14,7 @@ def num_hours() -> float:
         float: The number of hours.
     """
     return 0.0
+
 
 def generate_initial_pieces(num_pieces: int) -> Pieces:
     """Generates the initial pieces.
@@ -25,8 +27,9 @@ def generate_initial_pieces(num_pieces: int) -> Pieces:
     """
     piece = []
     for i in range(num_pieces):
-        piece.append(i+1)
+        piece.append(i + 1)
     return piece
+
 
 def initial_state() -> Board:
     top = []
@@ -38,22 +41,29 @@ def initial_state() -> Board:
         bot.append(EMPTY)
     return [top, mid, bot]
 
-def place_piece(board: Board, player: str,pieces_available: Pieces, move: Move) -> None:
-    # Board: Refresh board with uppdated pieces and print
+
+def place_piece(
+    board: Board, player: str, pieces_available: Pieces, move: Move
+) -> None:
+    # Board: Refresh board with updated pieces and print
     row, column, piece_size = move
     if piece_size in pieces_available:
         board[row][column] = player + str(piece_size)
         pieces_available.remove(piece_size)
     else:
         print("Invalid move")
-    pass
+    return
 
+
+"""
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
     # Print updated board after each turn
     print("O has: " + str(naught_pieces))
     print("X has: " + str(cross_pieces))
     # Board is initial state of board stacked on top of each other
     pass
+"""
+
 
 def main() -> None:
     # Write your main code here
@@ -75,5 +85,5 @@ def main() -> None:
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

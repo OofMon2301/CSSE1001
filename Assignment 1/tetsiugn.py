@@ -33,9 +33,9 @@ def initial_state() -> Board:
     mid = []
     bot = []
     for i in range(3):
-        top.append(EMPTY)
-        mid.append(EMPTY)
-        bot.append(EMPTY)
+        top.append(" ")
+        mid.append(" ")
+        bot.append(" ")
     return [top, mid, bot]
 
 def place_piece(board: Board, player: str,pieces_available: Pieces, move: Move) -> None:
@@ -50,10 +50,32 @@ def place_piece(board: Board, player: str,pieces_available: Pieces, move: Move) 
 
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
     # Print updated board after each turn
-    print("O has: " + str(naught_pieces))
-    print("X has: " + str(cross_pieces))
-    # Board is initial state of board stacked on top of each other
-    pass
+    print("O has: ", end="")
+    for i in range(len(naught_pieces)):
+        if i == len(naught_pieces) - 1:
+            print(naught_pieces[i])
+        else:
+            print(naught_pieces[i], end=", ")
+    print("X has: ", end="")
+    for i in range(len(cross_pieces)):
+        if i == len(cross_pieces) - 1:
+            print(cross_pieces[i])
+        else:
+            print(cross_pieces[i], end=", ")
+    print("  1 2 3")
+    print("  " + "-" * 7)
+    for i in range(len(board)):
+        row = board[i]
+        row_str = str(i + 1) + "|"
+        for j in range(len(row)):
+            row_str += row[j]
+            if j != len(row) - 1:
+                row_str += "|"
+        row_str += "|"
+        print(row_str)
+        print("  " + "-" * 7)
+        
+
 
 def main() -> None:
     # Write your main code here
@@ -72,6 +94,7 @@ def main() -> None:
     # player_crosses = input("Input player name for Crosses: ")
     # print(player_knots + ", " + "It is your turn first. Please input your move.")
     # print(player_crosses + ", " + "It is your turn first. Please input your move.")
+    
     pass
 
 

@@ -39,4 +39,4 @@ def get_primes(n):
 
 
 n = int(input("How many primes? "))
-print("The first" + n + "primes are:", primes)
+print("The first" + str(n) + "primes are:", str(primes))

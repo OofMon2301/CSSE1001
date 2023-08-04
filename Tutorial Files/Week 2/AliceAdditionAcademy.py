@@ -2,7 +2,7 @@ import random
 
 # Title
 
-print("Welcome to Alice's Addition Academy! Try out these questions below!")
+print("Welcome to Alice's Addition Academy! Try out these questions below!" )
 correct = 0
 
 # Asking how many questions
