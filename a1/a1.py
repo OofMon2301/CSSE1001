@@ -55,14 +55,13 @@ def place_piece(
     return
 
 
-"""
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
     # Print updated board after each turn
     print("O has: " + str(naught_pieces))
     print("X has: " + str(cross_pieces))
     # Board is initial state of board stacked on top of each other
     pass
-"""
+
 
 
 def main() -> None:
