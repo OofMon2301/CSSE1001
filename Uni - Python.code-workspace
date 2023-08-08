@@ -23,6 +23,10 @@
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "CSSE1001"
+		"liveServer.settings.multiRootWorkspaceName": "CSSE1001",
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter"
+		},
+		"python.formatting.provider": "none"
 	}
 }

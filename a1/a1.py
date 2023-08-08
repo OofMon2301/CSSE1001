@@ -9,11 +9,12 @@ Move = tuple[int, int, int]
 # Write your functions here
 def num_hours() -> float:
     """Return the number of hours you spent on this assignment.
-
+    
     Returns:
         float: The number of hours.
     """
-    return 0.0
+    return 3.5
+
 
 
 def generate_initial_pieces(num_pieces: int) -> Pieces:
@@ -29,7 +30,6 @@ def generate_initial_pieces(num_pieces: int) -> Pieces:
     for i in range(num_pieces):
         piece.append(i + 1)
     return piece
-
 
 def initial_state() -> Board:
     top = []
@@ -60,9 +60,14 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
     print("O has: " + str(naught_pieces))
     print("X has: " + str(cross_pieces))
     # Board is initial state of board stacked on top of each other
+    for i in range(3):
+        print(board[i])
+    return
+    
+def process_board(move: str) -> Move | None:
+    # Process the move input, if invalid, then print related error message
+    
     pass
-
-
 
 def main() -> None:
     # Write your main code here
@@ -79,7 +84,10 @@ def main() -> None:
     # Ask for Player X (Cross) or Player O (Nought) to move:
     # player_knots = input("Input player name for Knots: ")
     # player_crosses = input("Input player name for Crosses: ")
-    # print(player_knots + ", " + "It is your turn first. Please input your move.")
+# print_game(initial_state(), generate_initial_pieces(x), generate_initial_pieces(x))
+    # moving = print(player_knots + ", " + "It is your turn first. Please input your move.")
+    # place_piece(initial_state(), player_knots, generate_initial_pieces(x), process_board(moving))
+    
     # print(player_crosses + ", " + "It is your turn first. Please input your move.")
     pass
 
