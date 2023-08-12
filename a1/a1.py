@@ -15,8 +15,6 @@ def num_hours() -> float:
     """
     return 3.5
 
-
-
 def generate_initial_pieces(num_pieces: int) -> Pieces:
     """Generates the initial pieces.
 
@@ -41,7 +39,6 @@ def initial_state() -> Board:
         bot.append(EMPTY)
     return [top, mid, bot]
 
-
 def place_piece(
     board: Board, player: str, pieces_available: Pieces, move: Move
 ) -> None:
@@ -54,7 +51,6 @@ def place_piece(
         print("Invalid move")
     return
 
-
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
     # Print updated board after each turn
     print("O has: " + str(naught_pieces))
@@ -63,11 +59,49 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
     for i in range(3):
         print(board[i])
     return
+#TODO PRINT THE BOARD
     
 def process_board(move: str) -> Move | None:
-    # Process the move input, if invalid, then print related error message
+    """process_board Attempts to process if valid move
+
+    Attempts to process if the input is a valid move by converting into a tuple first. 
+    If the input is not a valid move, then output the relevant error message.
+
+    Args:
+        move (str): The input move is a string that is converted into a tuple, which 
+        will be used to place the piece on the board.
+
+    Returns:
+        Move | None: Will return the move set unless the move is invalid.
+    """
+    # Convert input into tuple
+    first = move[0]
+    second = move[2]
+    third = move[-1]
+    # Check if the input is valid
+    if first in "012" and second in "012" and third in "123456789":
+        return (int(first), int(second), int(third)) 
+    elif len(move) != 5 or move[0] != " " or move[2] != " ":
+        print(INVALID_FORMAT_MESSAGE)
+    elif str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012":
+        if move[0] is int:
+            print(INVALID_COLUMN_MESSAGE)
+        elif move[2] is int:
+            print(INVALID_ROW_MESSAGE)
+        elif move[-1] is int:
+            print(INVALID_SIZE_MESSAGE)
+    else:
+        print(INVALID_FORMAT_MESSAGE)
+    return (first, second, third)
     
-    pass
+    # Convert to tuple
+
+def get_player_move() -> None:
+    """get_player_move Prompts the user to move.
+
+    Prompts the user to move for an extended amount of time 
+    until the user is forced to choose, or until there is a valid move.
+    """
 
 def main() -> None:
     # Write your main code here
@@ -94,3 +128,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

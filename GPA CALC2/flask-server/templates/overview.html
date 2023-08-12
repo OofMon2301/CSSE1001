@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uni Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Course Overview:</h1>
+        <ul>
+            {% for course_name in unique_course_names %}
+                <li>{{ course_name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
