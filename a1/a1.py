@@ -43,12 +43,9 @@ def place_piece(
     board: Board, player: str, pieces_available: Pieces, move: Move
 ) -> None:
     row, column, piece_size = move
-    if piece_size in pieces_available and 5 <= piece_size <= 9:
-        board[row][column] = player + str(piece_size)
-        pieces_available.remove(piece_size)
-    else:
-        print("Invalid move")
-    return
+    marker = player + str(piece_size)  # Create the marker string
+    board[row][column] = marker
+    pieces_available.remove(piece_size)
 
 
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
