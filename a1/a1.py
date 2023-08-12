@@ -22,7 +22,7 @@ def generate_initial_pieces(num_pieces: int) -> Pieces:
         num_pieces (int): The number of pieces to generate.
 
     Returns:
-        Pieces: How many pieces to generate.
+        Pieces: The list of generated initial pieces.
     """
     piece = []
     for i in range(num_pieces):
@@ -102,13 +102,14 @@ def get_player_move() -> None:
     Prompts the user to move for an extended amount of time 
     until the user is forced to choose, or until there is a valid move.
     """
+    
 
 def main() -> None:
     # Write your main code here
     # Start by asking the user for the number of pieces
     x = int(input("How many pieces? "))
-    generate_initial_pieces(x)
-    print(generate_initial_pieces(x))
+    pieces = generate_initial_pieces(x)
+    print(pieces)
     # Then ask for the initial state of the board
     y = input("Do you want the Initial state of the board? ")
     if y == "yes":
