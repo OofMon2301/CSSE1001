@@ -53,9 +53,31 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
     print("O has: " + str(naught_pieces))
     print("X has: " + str(cross_pieces))
     # Board is initial state of board stacked on top of each other
-    for i in range(3):
-        print(board[i])
-    return
+    # Print the column numbers
+    columns = ""
+    for i in range(1, 4):
+        columns += str(i) + " "
+    print(columns)
+
+    # Print the horizontal line separator
+    separator = ""
+    for _ in range(9):
+        separator += "-"
+    print(separator)
+
+    # Print the rows of the board
+    for row_x, row in enumerate(board):
+        # Print the row number
+        row_number = str(row_x + 1)
+        print(row_number + "|", end="")
+
+        # Print each cell's marker (naught, cross, or empty)
+        for cell in row:
+            centered_marker = cell
+            padding = " " * (3 - len(centered_marker))
+            print(padding + centered_marker, end="|")
+        print()  # Move to the next line after each row
+
 #TODO PRINT THE BOARD
     
 def process_board(move: str) -> Move | None:
