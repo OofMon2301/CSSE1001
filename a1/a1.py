@@ -80,39 +80,46 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
 
 #TODO PRINT THE BOARD
     
-def process_board(move: str) -> Move | None:
-    """process_board Attempts to process if valid move
-
-    Attempts to process if the input is a valid move by converting into a tuple first. 
-    If the input is not a valid move, then output the relevant error message.
+def process_move(move: str) -> Move | None:
+    """Attempts to process if valid move and returns a tuple (row, column, piece size) or None.
 
     Args:
-        move (str): The input move is a string that is converted into a tuple, which 
-        will be used to place the piece on the board.
+        move (str): The input move string.
 
     Returns:
-        Move | None: Will return the move set unless the move is invalid.
+        Move | None: Returns a tuple (row, column, piece size) if valid, else None.
     """
-    # Convert input into tuple
-    first = move[0]
-    second = move[2]
-    third = move[-1]
-    # Check if the input is valid
-    if first in "012" and second in "012" and third in "123456789":
-        return (int(first), int(second), int(third)) 
-    elif len(move) != 5 or move[0] != " " or move[2] != " ":
-        print(INVALID_FORMAT_MESSAGE)
-    elif str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012":
-        if move[0] is int:
-            print(INVALID_COLUMN_MESSAGE)
-        elif move[2] is int:
-            print(INVALID_ROW_MESSAGE)
-        elif move[-1] is int:
-            print(INVALID_SIZE_MESSAGE)
-    else:
-        print(INVALID_FORMAT_MESSAGE)
-    return (first, second, third)
+    move_parts = move.split()  # Split the move string into parts
     
+    # Check if the move has three parts (row, column, piece size)
+    if len(move_parts) != 3:
+        print("Invalid move format. Please try again.")
+        return None
+    
+    # Try to convert the parts to integers
+    try:
+        row = int(move_parts[0]) - 1  # Convert 1-indexed row to 0-indexed
+        column = int(move_parts[1]) - 1  # Convert 1-indexed column to 0-indexed
+        piece_size = int(move_parts[2])
+    except ValueError:
+        print("Invalid move format. Please try again.")
+        return None
+    
+    # Check if row and column are within valid range
+    if row < 0 or row > 2:
+        print("Invalid row. Please try again.")
+        return None
+    if column < 0 or column > 2:
+        print("Invalid column. Please try again.")
+        return None
+    
+    # Check if piece size is valid
+    if piece_size < 1 or piece_size > 9:
+        print("Invalid piece size. Please try again.")
+        return None
+    
+    return (row, column, piece_size)  # Return the validated move tuple
+
     # Convert to tuple
 
 def get_player_move() -> None:
