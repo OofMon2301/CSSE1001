@@ -122,7 +122,7 @@ def process_move(move: str) -> Move | None:
     third = move[-1]
     # Check if the input is valid
     if first in "012" and second in "012" and third in "123456789":
-        return (int(first), int(second), int(third)) 
+        return (int(first), int(second), int(third))
     elif len(move) != 5 or move[0] != " " or move[2] != " ":
         print(INVALID_FORMAT_MESSAGE)
     elif str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012":
