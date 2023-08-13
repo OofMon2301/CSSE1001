@@ -125,7 +125,9 @@ def process_move(move: str) -> Move | None:
         return (int(first), int(second), int(third))
     elif len(move) != 5 or move[0] != " " or move[2] != " ":
         print(INVALID_FORMAT_MESSAGE)
-    elif str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012":
+    elif (
+        str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012"
+    ):
         if move[0] is int:
             print(INVALID_COLUMN_MESSAGE)
         elif move[2] is int:
@@ -135,8 +137,6 @@ def process_move(move: str) -> Move | None:
     else:
         print(INVALID_FORMAT_MESSAGE)
     return (first, second, third)
-    
-
 
 
 def get_player_move() -> None:
