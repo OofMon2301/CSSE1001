@@ -107,6 +107,8 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
         print()  # Move to the next line after each row
 
 
+
+# Define a function named process_move that takes a string argument and returns a tuple or None.
 def process_move(move: str) -> Move | None:
     """Attempts to process if valid move and returns a tuple (row, column, piece size) or None.
 
@@ -116,18 +118,23 @@ def process_move(move: str) -> Move | None:
     Returns:
         Move | None: Returns a tuple (row, column, piece size) if valid, else None.
     """
-    # Convert input into tuple
+
+    # Extract the first, second, and third characters from the input string.
     first = move[0]
     second = move[2]
     third = move[-1]
+
     # Check if the input is valid
     if first in "012" and second in "012" and third in "123456789":
+        # If the input is valid, return a tuple with the extracted values converted to integers.
         return (int(first), int(second), int(third))
     elif len(move) != 5 or move[0] != " " or move[2] != " ":
+        # If the input is not valid, print an error message for invalid format.
         print(INVALID_FORMAT_MESSAGE)
     elif (
         str(move[-1]) not in "123456789" or move[0] not in "012" or move[2] not in "012"
     ):
+        # If the input is not valid, print an error message for invalid column, row, or size.
         if move[0] is int:
             print(INVALID_COLUMN_MESSAGE)
         elif move[2] is int:
@@ -135,8 +142,12 @@ def process_move(move: str) -> Move | None:
         elif move[-1] is int:
             print(INVALID_SIZE_MESSAGE)
     else:
+        # If the input is not valid, print an error message for invalid format.
         print(INVALID_FORMAT_MESSAGE)
+
+    # Return None if the input is not valid.
     return (first, second, third)
+
 
 
 def get_player_move() -> None:
