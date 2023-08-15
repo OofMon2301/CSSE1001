@@ -107,7 +107,6 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
         print()  # Move to the next line after each row
 
 
-
 # Define a function named process_move that takes a string argument and returns a tuple or None.
 def process_move(move: str) -> Move | None:
     """Attempts to process if valid move and returns a tuple (row, column, piece size) or None.
@@ -121,43 +120,138 @@ def process_move(move: str) -> Move | None:
 
     # Split the input string into a list of its three components
     components = move.split()
-
-    # Check if the input is valid
+    # Check if the components are digits or not
     if len(components) != 3:
-        # If the input is not valid, print an error message for invalid format.
         print(INVALID_FORMAT_MESSAGE)
-    elif not all(c.isdigit() for c in components):
-        # If the input is not valid, print an error message for invalid column, row, or size.
-        if not components[0].isdigit():
-            print(INVALID_COLUMN_MESSAGE)
-        elif not components[1].isdigit():
-            print(INVALID_ROW_MESSAGE)
-        elif not components[2].isdigit():
-            print(INVALID_SIZE_MESSAGE)
-    elif not all(0 <= int(c) <= 2 for c in components[:2]) or not 1 <= int(components[2]) <= 9:
-        # If the input is not valid, print an error message for invalid column, row, or size.
-        if not (0 <= int(components[0]) <= 2):
-            print(INVALID_COLUMN_MESSAGE)
-        elif not (0 <= int(components[1]) <= 2):
-            print(INVALID_ROW_MESSAGE)
-        elif not (1 <= int(components[2]) <= 9):
-            print(INVALID_SIZE_MESSAGE)
+    # Check if move a single digit
+    elif len(components[0]) != 1 or len(components[1]) != 1 or len(components[2]) != 1:
+        print(INVALID_FORMAT_MESSAGE)
+    # Check if move is valid
+    elif not components[0].isdigit():
+        print(INVALID_ROW_MESSAGE)
+    elif not components[1].isdigit():
+        print(INVALID_COLUMN_MESSAGE)
+    elif not components[2].isdigit():
+        print(INVALID_SIZE_MESSAGE)
+
+    # Check if components are within the range of the board
+    elif int(components[0]) >= 3 or int(components[0]) <= 0:
+        print(INVALID_ROW_MESSAGE)
+    elif int(components[1]) >= 3 or int(components[1]) <= 0:
+        print(INVALID_COLUMN_MESSAGE)
+    elif int(components[2] == 0):
+        print(INVALID_SIZE_MESSAGE)
+    # Return if valid
     else:
         # If the input is valid, return a tuple with the extracted values converted to integers.
-        return (int(components[0]), int(components[1]), int(components[2]))
-
-    # Return None if the input is not valid.
+        return (int(components[0]) - 1, int(components[1]) - 1, int(components[2]))
+    # If the input is invalid, return None.
     return None
 
 
-
-def get_player_move() -> None:
+def get_player_move() -> Move:
     """get_player_move Prompts the user to move.
 
     Prompts the user to move for an extended amount of time
     until the user is forced to choose, or until there is a valid move.
     """
-    pass
+    while True:
+        question = input("Enter your move: ")
+        if question.lower() in ["h", "help"]:
+            print(HELP_MESSAGE)
+        elif len(question) != 5:
+            print(INVALID_FORMAT_MESSAGE)
+        elif question[0] not in ["1", "2", "3"]:
+            print(INVALID_ROW_MESSAGE)
+        elif question[2] not in ["1", "2", "3"]:
+            print(INVALID_COLUMN_MESSAGE)
+        elif not question[-1].isdigit() or question[-1] == "0":
+            print(INVALID_SIZE_MESSAGE)
+        else:
+            return (int(question[0]) - 1, int(question[2]) - 1, int(question[-1]))
+
+
+def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
+    # Check if move is valid: 3 Steps
+    # 1. Check if the piece is available
+    # 2. Check if the cell is empty
+    # 3. Check if the piece is larger than the current piece
+    if move[2] not in pieces_available:
+        print(INVALID_MOVE_MESSAGE)
+        return False
+    elif board[move[0]][move[1]] != EMPTY:
+        if board[move[0]][move[1]] == NAUGHT or CROSS:
+            if int(board[move[0]][move[1]][-1]) >= move[2]:
+                print(INVALID_MOVE_MESSAGE)
+                return False
+    else:
+        pass
+    return True
+
+
+def check_win(board: Board) -> str | None:
+    # Check if there is a winner
+    # Should check who won
+    # Total of 8 ways to win
+    # 3 rows, 3 columns, 2 diagonals
+    # Return "None" if no winner
+
+    # Check all 8 ways to win if they are empty or not
+    # If empty, return None
+    # If not empty, return the winner
+
+    # Check rows
+
+    win = None
+
+    for row in board[0:3]:
+        if row[0][0][0] == row[1][0][0] == row[2][0][0] == NAUGHT:
+            win = NAUGHT
+        elif row[0][0][0] == row[1][0][0] == row[2][0][0] == CROSS:
+            win = CROSS
+            # Check if the cell is EMPTY or not
+            # If EMPTY, then return None
+
+    # Check columns (3 columns) (0, 1, 2)
+    for column in range(0, 3):
+        if board[0][column][0] == board[1][column][0] == board[2][column][0] == NAUGHT:
+            win = NAUGHT
+        elif board[0][column][0] == board[1][column][0] == board[2][column][0] == CROSS:
+            win = CROSS
+
+    # Check diagonals
+    if board[0][0][0] == board[1][1][0] == board[2][2][0] == NAUGHT:
+        win = NAUGHT
+    elif board[0][0][0] == board[1][1][0] == board[2][2][0] == CROSS:
+        win = CROSS
+
+    if board[2][0][0] == board[1][1][0] == board[0][2][0] == NAUGHT:
+        win = NAUGHT
+    elif board[2][0][0] == board[1][1][0] == board[0][2][0] == CROSS:
+        win = CROSS
+
+    return win
+
+
+def check_stalemate(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> bool:
+    # Check if there is a stalemate
+    # Only return true if all empty cells are filled and if the pieces available are smaller
+    # Than all the pieces on the board
+
+    # Check if there are any empty cells
+    for row in board:
+        for cell in row:
+            if cell == EMPTY:
+                return False
+    # Check if the pieces available are smaller than all the pieces on the board
+    for row in board:
+        for cell in row:
+            if cell == NAUGHT or CROSS:
+                if int(cell[-1]) > max(naught_pieces + cross_pieces):
+                    return True
+                else:
+                    return False
+    return False
 
 
 def main() -> None:
@@ -185,6 +279,7 @@ def main() -> None:
         print(initial_state())
     else:
         print("Ok")
+    get_player_move()
     # Ask for Player X (Cross) or Player O (Nought) to move:
     # player_knots = input("Input player name for Knots: ")
     # player_crosses = input("Input player name for Crosses: ")

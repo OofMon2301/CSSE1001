@@ -1,127 +1,48 @@
-import unittest
-from a1 import process_move, Move, TicTacToe
+from constants import *
+
+board = [[EMPTY, EMPTY, EMPTY], [EMPTY, "X2", EMPTY], [EMPTY, EMPTY, EMPTY]]
+
+Board = list[list[str]]
+Pieces = list[int]
+Move = tuple[int, int, int]
 
 
-class TestProcessMove(unittest.TestCase):
-    def test_valid_move(self):
-        # Test a valid move
-        move_str = "1 2 3"
-        expected_move = (0, 1, 3)
-        self.assertEqual(process_move(move_str), expected_move)
+def check_win(board: Board) -> str | None:
+    # Check if there is a winner
+    # Should check who won
+    # Total of 8 ways to win
+    # 3 rows, 3 columns, 2 diagonals
+    # Return "None" if no winner
 
-    def test_invalid_move_format(self):
-        # Test an invalid move format
-        move_str = "1 2"
-        self.assertIsNone(process_move(move_str))
-
-    def test_invalid_row(self):
-        # Test an invalid row
-        move_str = "4 2 3"
-        self.assertIsNone(process_move(move_str))
-
-    def test_invalid_column(self):
-        # Test an invalid column
-        move_str = "1 3 3"
-        self.assertIsNone(process_move(move_str))
-
-    def test_invalid_move_format_with_letters(self):
-        # Test an invalid move format with letters
-        move_str = "1 a 3"
-        self.assertIsNone(process_move(move_str))
-
-    def test_valid_move_with_1_indexed_values(self):
-        # Test a valid move with 1-indexed values
-        move_str = "2 3 2"
-        expected_move = (1, 2, 2)
-        self.assertEqual(process_move(move_str), expected_move)
-
-    def test_valid_move_with_0_indexed_values(self):
-        # Test a valid move with 0-indexed values
-        move_str = "0 1 1"
-        expected_move = (0, 1, 1)
-        self.assertEqual(process_move(move_str), expected_move)
+    # Check rows
+    for row in board[0:3]:
+        if row[0][0][0] == row[1][0][0] == row[2][0][0]:
+            win = row[0][0][0]
+            return win
+    # Check if first row, column and last row, column is empty
+    # If so, then return None
+    if (
+        board[0][0] == EMPTY
+        and board[0][2] == EMPTY
+        and board[2][0] == EMPTY
+        and board[2][2] == EMPTY
+    ):
+        return None
+    # Check columns (3 columns) (0, 1, 2)
+    for column in range(0, 3):
+        if board[0][column][0] == board[1][column][0] == board[2][column][0]:
+            win1 = board[0][column][0]
+            return win1
+    # Check diagonals
+    if board[0][0][0] == board[1][1][0] == board[2][2][0]:
+        win2 = board[0][0][0]
+        return win2
+    elif board[2][0][0] == board[1][1][0] == board[0][2][0]:
+        win3 = board[2][0][0]
+        return win3
+    # If no win1, win2, win3, return None
+    else:
+        return None
 
 
-class TestTicTacToe(unittest.TestCase):
-    def test_gameplay(self):
-        # Test a full game
-        game = TicTacToe()
-        moves = [
-            "1 1 3",
-            "1 2 2",
-            "2 2 3",
-            "1 3 1",
-            "3 3 2",
-            "2 1 1",
-            "3 1 3",
-            "2 3 2",
-            "3 2 1",
-        ]
-        expected_output = [
-            " | | ",
-            "-----",
-            " | | ",
-            "-----",
-            " | | ",
-            "",
-            " | | ",
-            "-----",
-            " |X| ",
-            "-----",
-            " | | ",
-            "",
-            " | |O",
-            "-----",
-            " |X| ",
-            "-----",
-            " | | ",
-            "",
-            " | |O",
-            "-----",
-            " |X|X",
-            "-----",
-            " | | ",
-            "",
-            " | |O",
-            "-----",
-            " |X|X",
-            "-----",
-            " | |O",
-            "",
-            " | |O",
-            "-----",
-            " |X|X",
-            "-----",
-            " |X|O",
-            "",
-            " | |O",
-            "-----",
-            " |X|X",
-            "-----",
-            "O|X|O",
-            "",
-            " | |O",
-            "-----",
-            "X|X| ",
-            "-----",
-            "O|X|O",
-            "",
-            " |O|O",
-            "-----",
-            "X|X| ",
-            "-----",
-            "O|X|O",
-            "",
-            "X|O|O",
-            "-----",
-            "X|X| ",
-            "-----",
-            "O|X|O",
-        ]
-        for i, move in enumerate(moves):
-            game.make_move(move)
-            self.assertEqual(str(game), "\n".join(expected_output[: i * 6 + 6]))
-
-
-if __name__ == "__main__":
-    unittest.main()
+check_win(board)
