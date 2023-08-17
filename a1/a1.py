@@ -337,9 +337,9 @@ def main() -> None:
         # Process move, if valid, place piece on the board. Get player move is a tuple return
         if check_move(board, pieces, move):
             if current_player == NAUGHT:
-                naught_pieces.append(move[2])
+                place_piece(board, NAUGHT, naught_pieces, move)
             else:
-                cross_pieces.append(move[2])
+                place_piece(board, CROSS, cross_pieces, move)
             board[move[0]][move[1]] = player + str(move[2])
         print_game(board, naught_pieces, cross_pieces)
         # Change player
