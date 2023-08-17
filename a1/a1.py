@@ -182,6 +182,7 @@ def get_player_move() -> Move:
     """
     while True:
         question = input("Enter your move: ")
+        # Input for help
         if question.lower() in ["h", "help"]:
             print(HELP_MESSAGE)
         elif len(question) != 5:
@@ -308,9 +309,10 @@ def main() -> None:
     # Ask for the player name for Knots and Crosses
     naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
     cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
-
+    current_player = NAUGHT
     board = initial_state()
     print_game(board, naught_pieces, cross_pieces)
+    print("\n O Goes first! \n")
     # Loops until the game encounters a win, stalemate, and changes the player between naughts and crosses.
     while True:
         # Check for win
@@ -335,19 +337,32 @@ def main() -> None:
         # Ask for the current move
         move = get_player_move()
         # Process move, if valid, place piece on the board. Get player move is a tuple return
-        if check_move(board, pieces, move):
+        if process_move(str(move[0])):
+            if check_move(board, pieces, move):
+                if current_player == NAUGHT:
+                    place_piece(board, NAUGHT, naught_pieces, move)
+                else:
+                    place_piece(board, CROSS, cross_pieces, move)
+                board[move[0]][move[1]] = player + str(move[2])
+            print_game(board, naught_pieces, cross_pieces)
+            print("\n" + current_player + " turn to move:\n")
+            # Change player
             if current_player == NAUGHT:
-                place_piece(board, NAUGHT, naught_pieces, move)
+                current_player = CROSS
             else:
-                place_piece(board, CROSS, cross_pieces, move)
-            board[move[0]][move[1]] = player + str(move[2])
-        print_game(board, naught_pieces, cross_pieces)
-        # Change player
-        if current_player == NAUGHT:
-            current_player = CROSS
-        else:
-            current_player = NAUGHT
-    # Print the current state of the board after each move
+                current_player = NAUGHT
+    # After the game is over, ask the user if they want to play again
+    # If yes, then start the game again
+    # If no, then exit the program
+    continue_game = input("Thanks for playing! \nDo you want to play again? ")
+    if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
+        main()
+    elif continue_game == "no" or "No" or "NO" or "n" or "N":
+        print("Goodbye!")
+        exit()
+    else:
+        print("Invalid input")
+        exit()
 
 
 if __name__ == "__main__":
