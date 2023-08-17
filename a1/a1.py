@@ -78,33 +78,23 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
         None
     """
     # Print updated board after each turn
-    print("O has: " + str(naught_pieces))
-    print("X has: " + str(cross_pieces))
-    # Board is initial state of board stacked on top of each other
-    # Print the column numbers
-    columns = ""
-    for i in range(1, 4):
-        columns += str(i) + " "
-    print(columns)
+    # Print number of pieces available without square brackets for each player, newline
+    print(NAUGHT + " has: " + str(naught_pieces)[1:-1] + "\n" + CROSS + " has: " + str(cross_pieces)[1:-1] + "\n")
 
-    # Print the horizontal line separator
-    separator = ""
-    for _ in range(9):
-        separator += "-"
-    print(separator)
-
-    # Print the rows of the board
-    for row_x, row in enumerate(board):
-        # Print the row number
-        row_number = str(row_x + 1)
-        print(row_number + "|", end="")
-
-        # Print each cell's marker (naught, cross, or empty)
-        for cell in row:
-            centered_marker = cell
-            padding = " " * (3 - len(centered_marker))
-            print(padding + centered_marker, end="|")
-        print()  # Move to the next line after each row
+    # Print the board
+    # Board = GRID_SIZE x GRID_SIZE
+    # Print the board with the pieces in the correct positions
+    # Example:
+    #   1  2  3\n \
+    #  ---------\n \
+    #1|  |  |  |\n \
+    #  ---------\n \
+    #2|  |  |  |\n \
+    #  ---------\n \
+    #3|  |  |  |\n \
+    #  ---------\n \
+    print("   1  2  3\n" + "  ---------\n" + "1|" + board[0][0] + "|" + board[0][1] + "|" + board[0][2] + "|\n" + "  ---------\n" + "2|" + board[1][0] + "|" + board[1][1] + "|" + board[1][2] + "|\n" + "  ---------\n" + "3|" + board[2][0] + "|" + board[2][1] + "|" + board[2][2] + "|\n" + "  ---------")
+    
 
 
 # Define a function named process_move that takes a string argument and returns a tuple or None.
