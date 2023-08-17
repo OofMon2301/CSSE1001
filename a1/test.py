@@ -297,14 +297,14 @@ def main() -> None:
     # Start by asking the user for the number of pieces
 
     pieces = generate_initial_pieces(PIECES_PER_PLAYER)
-    # print(pieces)
+    print(pieces)
     # # Then ask for the initial state of the board
-    # y = input("Do you want the Initial state of the board? ")
-    # if y == "yes":
-    #     print(initial_state())
-    # else:
-    #     print("Ok")
-    # print("Let's play!")
+    y = input("Do you want the Initial state of the board? ")
+    if y == "yes":
+        print(initial_state())
+    else:
+        print("Ok")
+    print("Let's play!")
     # Ask for the player name for Knots and Crosses
     naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
     cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
@@ -335,18 +335,20 @@ def main() -> None:
         # Ask for the current move
         move = get_player_move()
         # Process move, if valid, place piece on the board. Get player move is a tuple return
-        if check_move(board, pieces, move):
+        if process_move(str(move)) == Move:
+            if check_move(board, pieces, move):
+                if current_player == NAUGHT:
+                    place_piece(board, NAUGHT, naught_pieces, move)
+                else:
+                    place_piece(board, CROSS, cross_pieces, move)
+                board[move[0]][move[1]] = current_player + str(move[2])
+            print_game(board, naught_pieces, cross_pieces)
+            # Change player
             if current_player == NAUGHT:
-                naught_pieces.append(move[2])
+                current_player = CROSS
             else:
-                cross_pieces.append(move[2])
-            board[move[0]][move[1]] = player + str(move[2])
-        print_game(board, naught_pieces, cross_pieces)
-        # Change player
-        if current_player == NAUGHT:
-            current_player = CROSS
-        else:
-            current_player = NAUGHT
+                current_player = NAUGHT
+
     # Print the current state of the board after each move
 
 
