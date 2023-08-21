@@ -156,13 +156,12 @@ def process_move(move: str) -> Move | None:
     # Split the input string into a list of its three components
     # START = "(1, 1, 3)"
     # END = "1 1 3"
-    components = move.split()
-    # Remove the brackets from the first and last components
-    # START = ["(1,", "1,", "3)"]
-    # END = ["1", "1", "3"]
-    # components[0] = components[1][:-1]
-    # components[1] = components[1][:-1]
-    # components[2] = components[2][:-1]
+    num1 = move[1]
+    num2 = move[4]
+    num3 = move[7]
+    components = f"{int(num1)+1} {int(num2)+1} {num3}"
+
+    # components = move.split()
     # Example
     # move = "1 2 3"
     # components = ["1", "2", "3"]
@@ -171,7 +170,7 @@ def process_move(move: str) -> Move | None:
     # components = ["[1", "2", "3]"] or ["(1,", "2,", "3)"]
 
     # Check if the components are digits or not
-    if len(components) != 3:
+    if len(components) != 5:
         print(INVALID_FORMAT_MESSAGE)
     # Check if move a single digit
     elif len(components[0]) != 1 or len(components[1]) != 1 or len(components[2]) != 1:
@@ -179,22 +178,22 @@ def process_move(move: str) -> Move | None:
     # Check if move is valid
     elif not components[0].isdigit():
         print(INVALID_ROW_MESSAGE)
-    elif not components[1].isdigit():
-        print(INVALID_COLUMN_MESSAGE)
     elif not components[2].isdigit():
+        print(INVALID_COLUMN_MESSAGE)
+    elif not components[4].isdigit():
         print(INVALID_SIZE_MESSAGE)
 
     # Check if components are within the range of the board
     elif int(components[0]) > 3 or int(components[0]) <= 0:
         print(INVALID_ROW_MESSAGE)
-    elif int(components[1]) > 3 or int(components[1]) <= 0:
+    elif int(components[2]) > 3 or int(components[2]) <= 0:
         print(INVALID_COLUMN_MESSAGE)
-    elif int(components[2] == 0):
+    elif int(components[4] == 0):
         print(INVALID_SIZE_MESSAGE)
     # Return if valid
     else:
         # If the input is valid, return a tuple with the extracted values converted to integers.
-        return (int(components[0]) - 1, int(components[1]) - 1, int(components[2]))
+        return (int(components[0]) - 1, int(components[2]) - 1, int(components[4]))
     # If the input is invalid, return None.
     return None
 
@@ -237,16 +236,12 @@ def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
             if int(board[move[0]][move[1]][-1]) >= move[2]:
                 print(INVALID_MOVE_MESSAGE)
                 return False
-            else:
-                return True
-        else:
-            print(INVALID_MOVE_MESSAGE)
-            return False
     elif move[0] not in range(3) or move[1] not in range(3):
         print(INVALID_MOVE_MESSAGE)
         return False
     else:
-        return True
+        pass
+    return True
 
 
 def check_win(board: Board) -> str | None:
@@ -342,10 +337,10 @@ def main() -> None:
         # Check for win
         win = check_win(board)
         if win == NAUGHT:
-            print("X wins!")
+            print("Naughts win!")
             break
         elif win == CROSS:
-            print("O wins!")
+            print("Crosses win!")
             break
         # Check for stalemate
         stalemate = check_stalemate(board, naught_pieces, cross_pieces)
@@ -361,40 +356,17 @@ def main() -> None:
         # Ask for the current move
         move = get_player_move()
 
-        # Make move processable so it's easier to check
-        # Move starts at "(0, 0, 1)" for example
-        move_string = f"{move[0]+1} {move[1]+1} {move[2]}"
-        # move_check = " ".join(str(item) for item in move)
-        processed_move = process_move(move_string)
         # Check if the move can be processed through process_move
-
-        if processed_move is not None:
-            if current_player == NAUGHT:
-                if check_move(board, naught_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
-            elif current_player == CROSS:
-                if check_move(board, cross_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
+        if process_move(str(move)) is not None:
+            if check_move(board, pieces, move) == True:
+                if current_player == NAUGHT:
+                    place_piece(board, NAUGHT, naught_pieces, move)
+                else:
+                    place_piece(board, CROSS, cross_pieces, move)
+                board[move[0]][move[1]] = player + str(move[2])
+            else:  # If check_move returns False
+                continue
         else:
-            print_game(board, naught_pieces, cross_pieces)
             continue
         print_game(board, naught_pieces, cross_pieces)
         # Change player
@@ -403,7 +375,7 @@ def main() -> None:
         else:
             current_player = NAUGHT
         # Process move, if valid, place piece on the board. Get player move is a tuple return
-    continue_game = input("Play again? ")
+    continue_game = input("Thanks for playing! \nDo you want to play again? ")
     if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
         main()
     elif continue_game == "no" or "No" or "NO" or "n" or "N":

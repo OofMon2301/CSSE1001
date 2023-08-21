@@ -12,7 +12,7 @@ def num_hours() -> float:
     Returns:
         float: The number of hours.
     """
-    return 13.5  # Returns the number of hours spent on the assignment as a float
+    return 3.5
 
 
 def generate_initial_pieces(num_pieces: int) -> Pieces:
@@ -24,10 +24,10 @@ def generate_initial_pieces(num_pieces: int) -> Pieces:
     Returns:
         Pieces: The list of generated initial pieces.
     """
-    piece = []  # Create an empty list to hold the pieces
-    for i in range(num_pieces):  # Loop through num_pieces times
-        piece.append(i + 1)  # Add the piece to the list
-    return piece  # Return the list of pieces
+    piece = []
+    for i in range(num_pieces):
+        piece.append(i + 1)
+    return piece
 
 
 def initial_state() -> Board:
@@ -36,18 +36,14 @@ def initial_state() -> Board:
     Returns:
         Board: The initial state of the board.
     """
-    top = []  # Create an empty list to represent the top row of the board
-    mid = []  # Create an empty list to represent the middle row of the board
-    bot = []  # Create an empty list to represent the bottom row of the board
-    for i in range(3):  # Loop through 3 times to create 3 columns for each row
-        top.append(EMPTY)  # Add an empty space to the top row
-        mid.append(EMPTY)  # Add an empty space to the middle row
-        bot.append(EMPTY)  # Add an empty space to the bottom row
-    return [
-        top,
-        mid,
-        bot,
-    ]  # Return the board as a list of lists, with each row as a list
+    top = []
+    mid = []
+    bot = []
+    for i in range(3):
+        top.append(EMPTY)
+        mid.append(EMPTY)
+        bot.append(EMPTY)
+    return [top, mid, bot]
 
 
 def place_piece(
@@ -64,20 +60,10 @@ def place_piece(
     Returns:
         None
     """
-    (
-        row,
-        column,
-        piece_size,
-    ) = move  # Unpacks the move tuple into row, column, and piece_size variables
-    marker = player + str(
-        piece_size
-    )  # Creates a string marker for the piece using the player and piece size
-    board[row][
-        column
-    ] = marker  # Places the marker on the board at the specified row and column
-    pieces_available.remove(
-        piece_size
-    )  # remove the piece size from the list of available pieces
+    row, column, piece_size = move
+    marker = player + str(piece_size)  # Create the marker string
+    board[row][column] = marker
+    pieces_available.remove(piece_size)
 
 
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
@@ -93,52 +79,56 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
     """
     # Print updated board after each turn
     # Print number of pieces available without square brackets for each player, newline
-
-    # Print the number of available pieces for each player
-    # Print the list of available pieces without square brackets for each player
-    # Example: "O has: 1, 2, 3\nX has: 1, 2, 3\n"
     print(
         NAUGHT
         + " has: "
-        + str(naught_pieces)[
-            1:-1
-        ]  # Convert the list to a string and remove the square brackets
+        + str(naught_pieces)[1:-1]
         + "\n"
         + CROSS
         + " has: "
-        + str(cross_pieces)[
-            1:-1
-        ]  # Convert the list to a string and remove the square brackets
+        + str(cross_pieces)[1:-1]
         + "\n"
     )
+
     # Print the board
+    # Board = GRID_SIZE x GRID_SIZE
+    # Print the board with the pieces in the correct positions
+    # Example:
+    #   1  2  3\n \
+    #  ---------\n \
+    # 1|  |  |  |\n \
+    #  ---------\n \
+    # 2|  |  |  |\n \
+    #  ---------\n \
+    # 3|  |  |  |\n \
+    #  ---------\n \
     print(
-        "   1  2  3\n"  # Print the column numbers
-        + "  ---------\n"  # Print the top border
-        + "1|"  # Print the row number and left border
-        + board[0][0]  # Print the top left cell
-        + "|"  # Print the border
-        + board[0][1]  # Print the top middle cell
-        + "|"  # Print the border
-        + board[0][2]  # Print the top right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------\n"  # Print the middle border
-        + "2|"  # Print the row number and left border
-        + board[1][0]  # Print the middle left cell
-        + "|"  # Print the border
-        + board[1][1]  # Print the middle middle cell
-        + "|"  # Print the border
-        + board[1][2]  # Print the middle right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------\n"  # Print the middle border
-        + "3|"  # Print the row number and left border
-        + board[2][0]  # Print the bottom left cell
-        + "|"  # Print the border
-        + board[2][1]  # Print the bottom middle cell
-        + "|"  # Print the border
-        + board[2][2]  # Print the bottom right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------"  # Print the bottom border
+        "   1  2  3\n"
+        + "  ---------\n"
+        + "1|"
+        + board[0][0]
+        + "|"
+        + board[0][1]
+        + "|"
+        + board[0][2]
+        + "|\n"
+        + "  ---------\n"
+        + "2|"
+        + board[1][0]
+        + "|"
+        + board[1][1]
+        + "|"
+        + board[1][2]
+        + "|\n"
+        + "  ---------\n"
+        + "3|"
+        + board[2][0]
+        + "|"
+        + board[2][1]
+        + "|"
+        + board[2][2]
+        + "|\n"
+        + "  ---------"
     )
 
 
@@ -154,22 +144,7 @@ def process_move(move: str) -> Move | None:
     """
 
     # Split the input string into a list of its three components
-    # START = "(1, 1, 3)"
-    # END = "1 1 3"
     components = move.split()
-    # Remove the brackets from the first and last components
-    # START = ["(1,", "1,", "3)"]
-    # END = ["1", "1", "3"]
-    # components[0] = components[1][:-1]
-    # components[1] = components[1][:-1]
-    # components[2] = components[2][:-1]
-    # Example
-    # move = "1 2 3"
-    # components = ["1", "2", "3"]
-    # Problem when move string has brackets
-    # move = "[1 2 3]" or "(1, 2, 3)"
-    # components = ["[1", "2", "3]"] or ["(1,", "2,", "3)"]
-
     # Check if the components are digits or not
     if len(components) != 3:
         print(INVALID_FORMAT_MESSAGE)
@@ -185,9 +160,9 @@ def process_move(move: str) -> Move | None:
         print(INVALID_SIZE_MESSAGE)
 
     # Check if components are within the range of the board
-    elif int(components[0]) > 3 or int(components[0]) <= 0:
+    elif int(components[0]) >= 3 or int(components[0]) <= 0:
         print(INVALID_ROW_MESSAGE)
-    elif int(components[1]) > 3 or int(components[1]) <= 0:
+    elif int(components[1]) >= 3 or int(components[1]) <= 0:
         print(INVALID_COLUMN_MESSAGE)
     elif int(components[2] == 0):
         print(INVALID_SIZE_MESSAGE)
@@ -223,30 +198,21 @@ def get_player_move() -> Move:
 
 
 def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
-    # Check if move is valid: 4 Steps
+    # Check if move is valid: 3 Steps
     # 1. Check if the piece is available
     # 2. Check if the cell is empty
     # 3. Check if the piece is larger than the current piece
-    # 4. Check if the move is within the board
-
     if move[2] not in pieces_available:
         print(INVALID_MOVE_MESSAGE)
         return False
     elif board[move[0]][move[1]] != EMPTY:
-        if board[move[0]][move[1]][0] in [NAUGHT, CROSS]:
+        if board[move[0]][move[1]] == NAUGHT or CROSS:
             if int(board[move[0]][move[1]][-1]) >= move[2]:
                 print(INVALID_MOVE_MESSAGE)
                 return False
-            else:
-                return True
-        else:
-            print(INVALID_MOVE_MESSAGE)
-            return False
-    elif move[0] not in range(3) or move[1] not in range(3):
-        print(INVALID_MOVE_MESSAGE)
-        return False
     else:
-        return True
+        pass
+    return True
 
 
 def check_win(board: Board) -> str | None:
@@ -329,23 +295,33 @@ def main() -> None:
     None
     """
     # Write your main code here
+    # Start by asking the user for the number of pieces
+
     pieces = generate_initial_pieces(PIECES_PER_PLAYER)
+    # print(pieces)
+    # # Then ask for the initial state of the board
+    # y = input("Do you want the Initial state of the board? ")
+    # if y == "yes":
+    #     print(initial_state())
+    # else:
+    #     print("Ok")
+    # print("Let's play!")
+    # Ask for the player name for Knots and Crosses
     naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
     cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
     current_player = NAUGHT
     board = initial_state()
     print_game(board, naught_pieces, cross_pieces)
-
+    print("\n O Goes first! \n")
     # Loops until the game encounters a win, stalemate, and changes the player between naughts and crosses.
     while True:
-        print("\n" + current_player + " turn to move \n")
         # Check for win
         win = check_win(board)
         if win == NAUGHT:
-            print("X wins!")
+            print("Naughts win!")
             break
         elif win == CROSS:
-            print("O wins!")
+            print("Crosses win!")
             break
         # Check for stalemate
         stalemate = check_stalemate(board, naught_pieces, cross_pieces)
@@ -360,50 +336,24 @@ def main() -> None:
         current_player = player
         # Ask for the current move
         move = get_player_move()
-
-        # Make move processable so it's easier to check
-        # Move starts at "(0, 0, 1)" for example
-        move_string = f"{move[0]+1} {move[1]+1} {move[2]}"
-        # move_check = " ".join(str(item) for item in move)
-        processed_move = process_move(move_string)
-        # Check if the move can be processed through process_move
-
-        if processed_move is not None:
+        # Process move, if valid, place piece on the board. Get player move is a tuple return
+        if check_move(board, pieces, move):
             if current_player == NAUGHT:
-                if check_move(board, naught_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
-            elif current_player == CROSS:
-                if check_move(board, cross_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
-        else:
-            print_game(board, naught_pieces, cross_pieces)
-            continue
+                place_piece(board, NAUGHT, naught_pieces, move)
+            else:
+                place_piece(board, CROSS, cross_pieces, move)
+            board[move[0]][move[1]] = player + str(move[2])
         print_game(board, naught_pieces, cross_pieces)
+        print("\n" + current_player + " turn to move:\n")
         # Change player
         if current_player == NAUGHT:
             current_player = CROSS
         else:
             current_player = NAUGHT
-        # Process move, if valid, place piece on the board. Get player move is a tuple return
-    continue_game = input("Play again? ")
+    # After the game is over, ask the user if they want to play again
+    # If yes, then start the game again
+    # If no, then exit the program
+    continue_game = input("Thanks for playing! \nDo you want to play again? ")
     if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
         main()
     elif continue_game == "no" or "No" or "NO" or "n" or "N":
@@ -412,8 +362,6 @@ def main() -> None:
     else:
         print("Invalid input")
         exit()
-
-    # Print the current state of the board after each move
 
 
 if __name__ == "__main__":
