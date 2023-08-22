@@ -142,46 +142,38 @@ def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> Non
     )
 
 
-# Define a function named process_move that takes a string argument and returns a tuple or None.
 def process_move(move: str) -> Move | None:
-    """Attempts to process if valid move and returns a tuple (row, column, piece size) or None.
+    """
+    Process the move string and return a tuple with the extracted values converted to integers.
 
     Args:
-        move (str): The input move string.
+        move (str): A string representing the move in the format of "row column size".
 
     Returns:
-        Move | None: Returns a tuple (row, column, piece size) if valid, else None.
+        Move | None: A tuple with the extracted values converted to integers if the input is valid, otherwise None.
+
+    Raises:
+        None
     """
-
     # Split the input string into a list of its three components
-    # START = "(1, 1, 3)"
-    # END = "1 1 3"
     components = move.split()
-    # Remove the brackets from the first and last components
-    # START = ["(1,", "1,", "3)"]
-    # END = ["1", "1", "3"]
-    # components[0] = components[1][:-1]
-    # components[1] = components[1][:-1]
-    # components[2] = components[2][:-1]
-    # Example
-    # move = "1 2 3"
-    # components = ["1", "2", "3"]
-    # Problem when move string has brackets
-    # move = "[1 2 3]" or "(1, 2, 3)"
-    # components = ["[1", "2", "3]"] or ["(1,", "2,", "3)"]
 
-    # Check if the components are digits or not
     if len(components) != 3:
+        # Print invalid format message if there are not exactly 3 components
         print(INVALID_FORMAT_MESSAGE)
     # Check if move a single digit
     elif len(components[0]) != 1 or len(components[1]) != 1 or len(components[2]) != 1:
+        # Print invalid format message if any of the components are not a single digit
         print(INVALID_FORMAT_MESSAGE)
     # Check if move is valid
     elif not components[0].isdigit():
+        # Print invalid row message if the first component is not a digit
         print(INVALID_ROW_MESSAGE)
     elif not components[1].isdigit():
+        # Print invalid column message if the second component is not a digit
         print(INVALID_COLUMN_MESSAGE)
     elif not components[2].isdigit():
+        # Print invalid size message if the third component is not a digit
         print(INVALID_SIZE_MESSAGE)
 
     # Check if components are within the range of the board
@@ -200,25 +192,43 @@ def process_move(move: str) -> Move | None:
 
 
 def get_player_move() -> Move:
-    """get_player_move Prompts the user to move.
+    """
+    Prompts the user to enter a move and returns a tuple of integers representing the move.
 
-    Prompts the user to move for an extended amount of time
-    until the user is forced to choose, or until there is a valid move.
+    The input format should be in the following format:
+    <row number><space><column number><space><size of the piece to place>
+    where row number and column number are 1-indexed and size of the piece to place is a positive integer.
+
+    Returns:
+    A tuple of integers representing the move, where the first integer is the row (0-indexed),
+    the second integer is the column (0-indexed), and the third integer is the size of the piece to place.
+
+    Example:
+    >>> get_player_move()
+    Enter your move: 1 2 3
+    (0, 1, 3)
     """
     while True:
+        # Prompt the user for input
         question = input("Enter your move: ")
         # Input for help
         if question.lower() in ["h", "help"]:
+            # Print help message
             print(HELP_MESSAGE)
         elif len(question) != 5:
+            # Print invalid format message if input length is not 5
             print(INVALID_FORMAT_MESSAGE)
         elif question[0] not in ["1", "2", "3"]:
+            # Print invalid row message if first character is not 1, 2, or 3
             print(INVALID_ROW_MESSAGE)
         elif question[2] not in ["1", "2", "3"]:
+            # Print invalid column message if third character is not 1, 2, or 3
             print(INVALID_COLUMN_MESSAGE)
         elif not question[-1].isdigit() or question[-1] == "0":
+            # Print invalid size message if last character is not a digit or is 0
             print(INVALID_SIZE_MESSAGE)
         else:
+            # Return a tuple of integers representing the move
             return (int(question[0]) - 1, int(question[2]) - 1, int(question[-1]))
 
 
@@ -250,6 +260,23 @@ def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
 
 
 def check_win(board: Board) -> str | None:
+    """Check if there is a winner in the given tic-tac-toe board.
+
+    The function checks all possible ways to win the game: 3 rows, 3 columns, and 2 diagonals.
+    If there is a winner, the function returns the symbol of the winner ('X' or 'O').
+    If there is no winner yet, the function returns None.
+
+    Args:
+        board (Board): A 3x3 list of cells representing the current state of the game.
+            Each cell is a tuple (symbol, position), where symbol is either 'X', 'O', or ' ' (empty),
+            and position is a tuple (row, column) with values between 0 and 2.
+
+    Returns:
+        str | None: The symbol of the winner ('X' or 'O'), or None if there is no winner yet.
+
+    Examples:
+
+    """
     # Check if there is a winner
     # Should check who won
     # Total of 8 ways to win
@@ -269,8 +296,6 @@ def check_win(board: Board) -> str | None:
             win = NAUGHT
         elif row[0][0][0] == row[1][0][0] == row[2][0][0] == CROSS:
             win = CROSS
-            # Check if the cell is EMPTY or not
-            # If EMPTY, then return None
 
     # Check columns (3 columns) (0, 1, 2)
     for column in range(0, 3):
@@ -294,23 +319,56 @@ def check_win(board: Board) -> str | None:
 
 
 def check_stalemate(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> bool:
-    # Check if there is a stalemate
-    # Only return true if all empty cells are filled and if the pieces available are smaller
-    # Than all the pieces on the board
+    """Check whether there is a stalemate.
+
+    A stalemate occurs when there are no empty cells left on the board, and the size of the
+    largest available piece is smaller than the largest piece on the board.
+
+    Args:
+        board: A 2D list of strings representing the current state of the board.
+        naught_pieces: A list of integers representing the sizes of the naught pieces
+            available to be placed on the board.
+        cross_pieces: A list of integers representing the sizes of the cross pieces
+            available to be placed on the board.
+
+    Example:
+        >>> board = [
+        ...     [EMPTY, EMPTY, 'X1],
+        ...     [EMPTY, 'O2', 'X3'],
+        ...     ['O1', 'X2', 'O3']
+        ... ]
+        >>> naught_pieces = []
+        >>> cross_pieces = []
+        >>> check_stalemate(board, naught_pieces, cross_pieces)
+        True
+
+    Returns:
+        A boolean representing whether there is a stalemate.
+    """
+
+    # Check if there are no pieces available
+    if len(naught_pieces) == 0 and len(cross_pieces) == 0:
+        return True
 
     # Check if there are any empty cells
     for row in board:
         for cell in row:
             if cell == EMPTY:
                 return False
+
     # Check if the pieces available are smaller than all the pieces on the board
     for row in board:
         for cell in row:
             if cell == NAUGHT or CROSS:
-                if int(cell[-1]) > max(naught_pieces + cross_pieces):
+                # Get the size of the piece on the board
+                piece_size = int(cell[-1])
+                # Check if the piece size is greater than the maximum size of the available pieces
+                if piece_size > max(naught_pieces + cross_pieces):
                     return True
                 else:
                     return False
+
+    # If none of the above conditions are met, then there is no stalemate
     return False
 
 
@@ -328,91 +386,113 @@ def main() -> None:
     Returns:
     None
     """
+
     # Write your main code here
-    pieces = generate_initial_pieces(PIECES_PER_PLAYER)
-    naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
-    cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
-    current_player = NAUGHT
-    board = initial_state()
-    print_game(board, naught_pieces, cross_pieces)
 
-    # Loops until the game encounters a win, stalemate, and changes the player between naughts and crosses.
     while True:
-        print("\n" + current_player + " turn to move \n")
-        # Check for win
-        win = check_win(board)
-        if win == NAUGHT:
-            print("X wins!")
-            break
-        elif win == CROSS:
-            print("O wins!")
-            break
-        # Check for stalemate
-        stalemate = check_stalemate(board, naught_pieces, cross_pieces)
-        if stalemate:
-            print("Stalemate!")
-            break
-        # Check for player
-        if len(naught_pieces) == len(cross_pieces):
-            player = NAUGHT
-        else:
-            player = CROSS
-        current_player = player
-        # Ask for the current move
-        move = get_player_move()
-
-        # Make move processable so it's easier to check
-        # Move starts at "(0, 0, 1)" for example
-        move_string = f"{move[0]+1} {move[1]+1} {move[2]}"
-        # move_check = " ".join(str(item) for item in move)
-        processed_move = process_move(move_string)
-        # Check if the move can be processed through process_move
-
-        if processed_move is not None:
-            if current_player == NAUGHT:
-                if check_move(board, naught_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
-            elif current_player == CROSS:
-                if check_move(board, cross_pieces, processed_move) == True:
-                    if current_player == NAUGHT:
-                        place_piece(board, NAUGHT, naught_pieces, processed_move)
-                    else:
-                        place_piece(board, CROSS, cross_pieces, processed_move)
-                    board[processed_move[0]][processed_move[1]] = player + str(
-                        processed_move[2]
-                    )
-                else:  # If check_move returns False
-                    print_game(board, naught_pieces, cross_pieces)
-                    continue
-        else:
-            print_game(board, naught_pieces, cross_pieces)
-            continue
+        pieces = generate_initial_pieces(PIECES_PER_PLAYER)
+        naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
+        cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
+        current_player = NAUGHT
+        board = initial_state()
         print_game(board, naught_pieces, cross_pieces)
-        # Change player
-        if current_player == NAUGHT:
-            current_player = CROSS
-        else:
-            current_player = NAUGHT
-        # Process move, if valid, place piece on the board. Get player move is a tuple return
-    continue_game = input("Play again? ")
-    if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
-        main()
-    elif continue_game == "no" or "No" or "NO" or "n" or "N":
-        print("Goodbye!")
-        exit()
-    else:
-        print("Invalid input")
-        exit()
 
+        # Loops until the game encounters a win, stalemate, and changes the player between naughts and crosses.
+
+        while True:
+            # Check for win
+            win = check_win(board)
+            if win == NAUGHT:
+                print("O wins!")
+                break
+            elif win == CROSS:
+                print("X wins!")
+                break
+            # Check for stalemate
+            stalemate = check_stalemate(board, naught_pieces, cross_pieces)
+            if stalemate:
+                print("Stalemate!")
+                break
+            # Check for player
+            if len(naught_pieces) == len(cross_pieces):
+                player = NAUGHT
+            else:
+                player = CROSS
+            current_player = player
+
+            print("\n" + current_player + " turn to move \n")
+            # Ask for the current move
+            move = get_player_move()
+
+            # Make move processable so it's easier to check
+            # Move starts at "(0, 0, 1)" for example
+            move_string = f"{move[0]+1} {move[1]+1} {move[2]}"
+            # move_check = " ".join(str(item) for item in move)
+            processed_move = process_move(move_string)
+            # Check if the move can be processed through process_move
+
+            if processed_move is not None:  # Check if the move is valid
+                if current_player == NAUGHT:  # Check if the current player is Naught
+                    if (
+                        check_move(board, naught_pieces, processed_move) == True
+                    ):  # Check if the move is valid for Naught
+                        if (
+                            current_player == NAUGHT
+                        ):  # Check if the current player is Naught
+                            place_piece(
+                                board, NAUGHT, naught_pieces, processed_move
+                            )  # Place the piece on the board for Naught
+                        else:
+                            place_piece(
+                                board, CROSS, cross_pieces, processed_move
+                            )  # Place the piece on the board for Cross
+                        board[processed_move[0]][
+                            processed_move[1]
+                        ] = player + str(  # Update the board with the new piece
+                            processed_move[2]
+                        )
+                    else:  # If check_move returns False, print the game and continue
+                        print_game(board, naught_pieces, cross_pieces)
+                        continue
+                elif current_player == CROSS:  # Check if the current player is Cross
+                    if (
+                        check_move(board, cross_pieces, processed_move) == True
+                    ):  # Check if the move is valid for Cross
+                        if (
+                            current_player == NAUGHT
+                        ):  # Check if the current player is Naught
+                            place_piece(
+                                board, NAUGHT, naught_pieces, processed_move
+                            )  # Place the piece on the board for Naught
+                        else:
+                            place_piece(
+                                board, CROSS, cross_pieces, processed_move
+                            )  # Place the piece on the board for Cross
+                        board[processed_move[0]][
+                            processed_move[1]
+                        ] = player + str(  # Update the board with the new piece
+                            processed_move[2]
+                        )
+                    else:  # If check_move returns False, print the game and continue
+                        print_game(board, naught_pieces, cross_pieces)
+                        continue
+            else:
+                print_game(board, naught_pieces, cross_pieces)
+                continue
+            print_game(board, naught_pieces, cross_pieces)
+
+            # Process move, if valid, place piece on the board. Get player move is a tuple return
+        continue_game = input("Play again? ")
+        if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
+            # Reset the game by going to top of while function
+            pass
+        elif continue_game == "no" or "No" or "NO" or "n" or "N":
+            print("Goodbye!")
+            exit()
+        else:
+            print("Invalid input")
+            exit()
+        continue
     # Print the current state of the board after each move
 
 
