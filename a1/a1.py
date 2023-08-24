@@ -37,8 +37,11 @@ def initial_state() -> Board:
         Board: The initial state of the board.
     """
     top = []  # Create an empty list to represent the top row of the board
+
     mid = []  # Create an empty list to represent the middle row of the board
+
     bot = []  # Create an empty list to represent the bottom row of the board
+
     for i in range(3):  # Loop through 3 times to create 3 columns for each row
         top.append(EMPTY)  # Add an empty space to the top row
         mid.append(EMPTY)  # Add an empty space to the middle row
@@ -80,100 +83,113 @@ def place_piece(
     )  # remove the piece size from the list of available pieces
 
 
+from typing import List, Tuple
+
+Board = List[List[str]]
+Pieces = Tuple[int, int]
+
+NAUGHT = "O"
+CROSS = "X"
+
+
 def print_game(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -> None:
-    """Prints the current state of the game.
+    """
+    Print the current state of the game board, along with the number of remaining pieces for each player.
 
     Args:
-        board (Board): The current state of the board.
-        naught_pieces (Pieces): The list of available naught pieces.
-        cross_pieces (Pieces): The list of available cross pieces.
+        board (List[List[str]]): A 3x3 list representing the current state of the game board.
+        naught_pieces (Tuple[int, int]): A tuple representing the number of remaining naught pieces for each player.
+        cross_pieces (Tuple[int, int]): A tuple representing the number of remaining cross pieces for each player.
 
     Returns:
-        None
-    """
-    # Print updated board after each turn
-    # Print number of pieces available without square brackets for each player, newline
+            None
 
-    # Print the number of available pieces for each player
-    # Print the list of available pieces without square brackets for each player
-    # Example: "O has: 1, 2, 3\nX has: 1, 2, 3\n"
+    Example:
+            >>> board = [['O', 'X', 'O'], ['X', 'O', 'X'], ['O', 'X', '']]
+            >>> naught_pieces = (3, 2)
+            >>> cross_pieces = (2, 3)
+            >>> print_game(board, naught_pieces, cross_pieces)
+            O has: 3, 2
+            X has: 2, 3
+            1  2  3
+                ---------
+            1|O|X|O|
+                ---------
+            2|X|O|X|
+                ---------
+            3|O|X| |
+                ---------
+    """
     print(
         NAUGHT
         + " has: "
-        + str(naught_pieces)[
-            1:-1
-        ]  # Convert the list to a string and remove the square brackets
+        + str(naught_pieces)[1:-1]
         + "\n"
         + CROSS
         + " has: "
-        + str(cross_pieces)[
-            1:-1
-        ]  # Convert the list to a string and remove the square brackets
+        + str(cross_pieces)[1:-1]
         + "\n"
     )
-    # Print the board
     print(
-        "   1  2  3\n"  # Print the column numbers
-        + "  ---------\n"  # Print the top border
-        + "1|"  # Print the row number and left border
-        + board[0][0]  # Print the top left cell
-        + "|"  # Print the border
-        + board[0][1]  # Print the top middle cell
-        + "|"  # Print the border
-        + board[0][2]  # Print the top right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------\n"  # Print the middle border
-        + "2|"  # Print the row number and left border
-        + board[1][0]  # Print the middle left cell
-        + "|"  # Print the border
-        + board[1][1]  # Print the middle middle cell
-        + "|"  # Print the border
-        + board[1][2]  # Print the middle right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------\n"  # Print the middle border
-        + "3|"  # Print the row number and left border
-        + board[2][0]  # Print the bottom left cell
-        + "|"  # Print the border
-        + board[2][1]  # Print the bottom middle cell
-        + "|"  # Print the border
-        + board[2][2]  # Print the bottom right cell
-        + "|\n"  # Print the right border and newline
-        + "  ---------"  # Print the bottom border
+        "   1  2  3\n"
+        + "  ---------\n"
+        + "1|"
+        + board[0][0]
+        + "|"
+        + board[0][1]
+        + "|"
+        + board[0][2]
+        + "|\n"
+        + "  ---------\n"
+        + "2|"
+        + board[1][0]
+        + "|"
+        + board[1][1]
+        + "|"
+        + board[1][2]
+        + "|\n"
+        + "  ---------\n"
+        + "3|"
+        + board[2][0]
+        + "|"
+        + board[2][1]
+        + "|"
+        + board[2][2]
+        + "|\n"
+        + "  ---------"
     )
 
 
 def process_move(move: str) -> Move | None:
     """
-    Process the move string and return a tuple with the extracted values converted to integers.
+    Process the move string and return a tuple with the extracted values converted to
+    integers.
 
     Args:
         move (str): A string representing the move in the format of "row column size".
 
     Returns:
-        Move | None: A tuple with the extracted values converted to integers if the input is valid, otherwise None.
+        Move | None: A tuple with the extracted values converted to integers if
+        the input is valid, otherwise None.
 
     Raises:
         None
     """
-    # Split the input string into a list of its three components
+    # Split so indexing is easier
     components = move.split()
 
+    # Check if only 3 items
     if len(components) != 3:
-        # Print invalid format message if there are not exactly 3 components
         print(INVALID_FORMAT_MESSAGE)
-    # Check if move a single digit
     elif len(components[0]) != 1 or len(components[1]) != 1 or len(components[2]) != 1:
-        # Print invalid format message if any of the components are not a single digit
         print(INVALID_FORMAT_MESSAGE)
+
     # Check if move is valid
     elif not components[0].isdigit():
-        # Print invalid row message if the first component is not a digit
         print(INVALID_ROW_MESSAGE)
     elif not components[1].isdigit():
-        # Print invalid column message if the second component is not a digit
         print(INVALID_COLUMN_MESSAGE)
     elif not components[2].isdigit():
-        # Print invalid size message if the third component is not a digit
         print(INVALID_SIZE_MESSAGE)
 
     # Check if components are within the range of the board
@@ -183,11 +199,12 @@ def process_move(move: str) -> Move | None:
         print(INVALID_COLUMN_MESSAGE)
     elif int(components[2] == 0):
         print(INVALID_SIZE_MESSAGE)
+
     # Return if valid
     else:
-        # If the input is valid, return a tuple with the extracted values converted to integers.
         return (int(components[0]) - 1, int(components[1]) - 1, int(components[2]))
-    # If the input is invalid, return None.
+
+    # If invalid
     return None
 
 
@@ -213,19 +230,18 @@ def get_player_move() -> Move:
         question = input("Enter your move: ")
         # Input for help
         if question.lower() in ["h", "help"]:
-            # Print help message
             print(HELP_MESSAGE)
+
         elif len(question) != 5:
-            # Print invalid format message if input length is not 5
             print(INVALID_FORMAT_MESSAGE)
+
         elif question[0] not in ["1", "2", "3"]:
-            # Print invalid row message if first character is not 1, 2, or 3
             print(INVALID_ROW_MESSAGE)
+
         elif question[2] not in ["1", "2", "3"]:
-            # Print invalid column message if third character is not 1, 2, or 3
             print(INVALID_COLUMN_MESSAGE)
+
         elif not question[-1].isdigit() or question[-1] == "0":
-            # Print invalid size message if last character is not a digit or is 0
             print(INVALID_SIZE_MESSAGE)
         else:
             # Return a tuple of integers representing the move
@@ -233,11 +249,43 @@ def get_player_move() -> Move:
 
 
 def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
-    # Check if move is valid: 4 Steps
-    # 1. Check if the piece is available
-    # 2. Check if the cell is empty
-    # 3. Check if the piece is larger than the current piece
-    # 4. Check if the move is within the board
+    """
+    Check if a move is valid based on the current state of the game.
+
+    This function checks if a move is valid by performing the following checks:
+    1. Check if the piece is available
+    2. Check if the cell is empty
+    3. Check if the piece is larger than the current piece
+    4. Check if the move is within the board
+
+    Args:
+    board (List[List[str]]): A 3x3 list representing the current state of the Tic Tac Toe board.
+    pieces_available (List[str]): A list of available pieces that can be played on the board.
+    move (Tuple[int, int, int]): A tuple representing the move to be checked. The first two elements
+        represent the row and column indices of the cell to be played, and the third element represents
+        the size of the piece to be played.
+
+    Returns:
+        bool: True if the move is valid, False otherwise.
+
+    Example:
+        >>> board = [['  ', '  ', '  '], ['  ', '  ', '  '], ['  ', '  ', '  ']]
+        >>> naught_pieces = [1, 2, 3]
+        >>> cross_pieces = [1, 2, 3]
+        >>> move = (0, 0, 1)
+        >>> check_move(board, naught_pieces, move)
+        True
+
+        >>> board = [['X5', '  ', '  '], ['  ', '  ', '  '], ['  ', '  ', '  ']]
+        >>> naught_pieces = [1, 2, 3]
+        >>> cross_pieces = [1, 2, 3, 6]
+        >>> naught_move = (0, 0, 6)
+        >>> cross_move = (0, 0, 6)
+        >>> check_move(board, naught_pieces, naught_move)
+        False
+        >>> check_move(board, cross_pieces, cross_move)
+        True
+    """
 
     if move[2] not in pieces_available:
         print(INVALID_MOVE_MESSAGE)
@@ -260,11 +308,19 @@ def check_move(board: Board, pieces_available: Pieces, move: Move) -> bool:
 
 
 def check_win(board: Board) -> str | None:
-    """Check if there is a winner in the given tic-tac-toe board.
+    """
+    Check if there is a winner in the given tic-tac-toe board.
 
     The function checks all possible ways to win the game: 3 rows, 3 columns, and 2 diagonals.
-    If there is a winner, the function returns the symbol of the winner ('X' or 'O').
-    If there is no winner yet, the function returns None.
+        If there is a winner, the function returns the symbol of the winner ('X' or 'O').
+        If there is no winner yet, the function returns None.
+
+        The function checks all 8 ways to win if they are empty or not.
+        If empty, return None. If not empty, return the winner.
+
+        The function checks the rows, columns, and diagonals of the board to determine if there is a winner.
+        If there is a winner, the function returns the symbol of the winner ('X' or 'O').
+        If there is no winner yet, the function returns None.
 
     Args:
         board (Board): A 3x3 list of cells representing the current state of the game.
@@ -275,22 +331,16 @@ def check_win(board: Board) -> str | None:
         str | None: The symbol of the winner ('X' or 'O'), or None if there is no winner yet.
 
     Examples:
-
+    # Full board
+        >>> board = [['O1', 'X2', 'X4'], ['X6', 'O2', 'X3'], ['X5', 'O3', 'X1']]
+        >>> check_win(board)
+        'X'
     """
-    # Check if there is a winner
-    # Should check who won
-    # Total of 8 ways to win
-    # 3 rows, 3 columns, 2 diagonals
-    # Return "None" if no winner
 
-    # Check all 8 ways to win if they are empty or not
-    # If empty, return None
-    # If not empty, return the winner
-
-    # Check rows
-
+    # None as default
     win = None
 
+    # Check row
     for row in board[0:3]:
         if row[0][0][0] == row[1][0][0] == row[2][0][0] == NAUGHT:
             win = NAUGHT
@@ -333,7 +383,7 @@ def check_stalemate(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -
 
     Example:
         >>> board = [
-        ...     [EMPTY, EMPTY, 'X1],
+        ...     [EMPTY, EMPTY, 'X1'],
         ...     [EMPTY, 'O2', 'X3'],
         ...     ['O1', 'X2', 'O3']
         ... ]
@@ -357,19 +407,22 @@ def check_stalemate(board: Board, naught_pieces: Pieces, cross_pieces: Pieces) -
                 return False
 
     # Check if the pieces available are smaller than all the pieces on the board
+    pieces_bigger = 0
     for row in board:
         for cell in row:
             if cell == NAUGHT or CROSS:
                 # Get the size of the piece on the board
                 piece_size = int(cell[-1])
-                # Check if the piece size is greater than the maximum size of the available pieces
-                if piece_size > max(naught_pieces + cross_pieces):
-                    return True
+                if piece_size >= int(max(naught_pieces + cross_pieces)):
+                    pieces_bigger += 1
                 else:
-                    return False
+                    pieces_bigger += 0
 
-    # If none of the above conditions are met, then there is no stalemate
-    return False
+    # If all pieces are smaller than those on the board:
+    if pieces_bigger == 9:
+        return True
+    else:
+        return False
 
 
 def main() -> None:
@@ -390,7 +443,6 @@ def main() -> None:
     # Write your main code here
 
     while True:
-        pieces = generate_initial_pieces(PIECES_PER_PLAYER)
         naught_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
         cross_pieces = generate_initial_pieces(PIECES_PER_PLAYER)
         current_player = NAUGHT
@@ -420,15 +472,17 @@ def main() -> None:
                 player = CROSS
             current_player = player
 
-            print("\n" + current_player + " turn to move \n")
+            print("\n" + current_player + " turn to move\n")
             # Ask for the current move
             move = get_player_move()
 
             # Make move processable so it's easier to check
             # Move starts at "(0, 0, 1)" for example
             move_string = f"{move[0]+1} {move[1]+1} {move[2]}"
-            # move_check = " ".join(str(item) for item in move)
+
+            # Process the move
             processed_move = process_move(move_string)
+
             # Check if the move can be processed through process_move
 
             if processed_move is not None:  # Check if the move is valid
@@ -476,6 +530,9 @@ def main() -> None:
                     else:  # If check_move returns False, print the game and continue
                         print_game(board, naught_pieces, cross_pieces)
                         continue
+                else:
+                    print_game(board, naught_pieces, cross_pieces)
+                    continue
             else:
                 print_game(board, naught_pieces, cross_pieces)
                 continue
@@ -483,16 +540,16 @@ def main() -> None:
 
             # Process move, if valid, place piece on the board. Get player move is a tuple return
         continue_game = input("Play again? ")
-        if continue_game == "yes" or "Yes" or "YES" or "y" or "Y":
+        if continue_game == "y" or "Y":
             # Reset the game by going to top of while function
             pass
-        elif continue_game == "no" or "No" or "NO" or "n" or "N":
-            print("Goodbye!")
-            exit()
         else:
-            print("Invalid input")
-            exit()
+            break  # Try to terminate the game
+
+        if continue_game not in ["y", "Y"]:
+            break
         continue
+
     # Print the current state of the board after each move
 
 
