@@ -1,7 +1,14 @@
 class Student(object):
     """Simple representation of a university student."""
 
-    def __init__(self, first_name, last_name, email, degree, student_number):
+    def __init__(
+        self,
+        first_name: str,
+        last_name: str,
+        email: str,
+        degree: str,
+        student_number: str,
+    ):
         """Create a student with a name.
 
         Parameters:
@@ -40,7 +47,8 @@ last_name = input("Enter the student's last name: ")
 email = input("Enter the student's email: ")
 degree = input("Enter the student's degree: ")
 number = str(input("Enter the student's number: "))
-
+# Create a student object with the information given
+student = Student(first_name, last_name, email, degree, number)
 # Ask to either return the string in readable format or python format.
 while True:
     format = input(
@@ -49,10 +57,15 @@ while True:
     if format == 0:
         break
     elif format == "readable":
+        print(f"'{first_name} {last_name} ({email}, {degree}, {number})'")
+        # Print using class
         print(
-            "'", first_name, last_name, "(", email, ",", degree, ",", number, ")", "'"
+            f"'{student.get_first_name()} {student.get_last_name()} ({student.get_email()}, {student.get_degree()}, {student.get_student_number()})'"
         )
+
     elif format == "python":
-        print("Student", "(", first_name + last_name, ",", number, ",", degree, ")")
+        print(
+            f"Student('{first_name}', '{last_name}', '{email}', '{degree}', '{number}')"
+        )
     else:
         break
