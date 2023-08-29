@@ -26,3 +26,10 @@ def find_functions(filename):
 find_functions(
     "C:/Users/jamie/OneDrive/2023/CSSE1001/Tutorial Files/Week 6/week06_functions.py"
 )
+
+name = input("Enter your name: ")
+with open(name, "r") as f:
+    lines = f.readline()
+    while lines != "":
+        print(lines)
+        lines = f.readline()
