@@ -1,0 +1,7 @@
+def square(x) :
+def add(x, y) :
+def get_0() :
+defrosted = False
+def square(x) :
+def add(x, y) :
+def get_0() :
