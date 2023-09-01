@@ -34,6 +34,8 @@ def create_layout(frame: tk.Frame) -> None:
 
     """
     button1 = tk.Button(frame, text="Button1", command=pressed)
+    button1.pack(pady=20, side=tk.LEFT)
+    
     button2 = tk.Button(frame, text="Button2", command=pressed)
-    button1.pack(pady= 20)
-    button2.pack(pady=20, ipadx=40)
+    button2.pack(pady=20, padx=20, side=tk.LEFT, ipadx=40)
+    

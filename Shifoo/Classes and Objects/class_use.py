@@ -80,7 +80,7 @@ def print_friend_info(person: Person) -> None:
     print(age)
     friend = person.get_friend()
     if friend is not None:
-        print(f"Friends with {friend.get_name()}")
+        print(f"Friends with {friend._name}")
 
 
 def create_fry() -> Person:
