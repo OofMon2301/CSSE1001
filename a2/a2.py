@@ -456,6 +456,20 @@ class SokobanModel:
     """A class for maintaining the game state and applying game logic.
 
     The SokobanModel class is responsible for maintaining the state of the game.
+
+    Attributes:
+        _maze (Grid): A 2D list representing the maze.
+        _entities (Entities): A dictionary mapping the positions of entities in the maze to their respective objects.
+        _player_position (tuple[int, int]): A tuple representing the position of the player in the maze.
+        _player (Player): An object representing the player in the game.
+        _moves (int): An integer representing the number of moves the player has made.
+        _strength (int): An integer representing the strength of the player.
+        _potion (int): An integer representing the number of potions the player has.
+        _crate (int): An integer representing the number of crates in the maze.
+        _goal (int): An integer representing the number of goals in the maze.
+        _goal_position (list[tuple[int, int]]): A list of tuples representing the positions of the goals in the maze.
+        _crate_position (list[tuple[int, int]]): A list of tuples representing the positions of the crates in the maze.
+        _potion_position (list[tuple[int, int]]): A list of tuples representing the positions of the potions in the maze.
     """
 
     def __init__(self, maze_file: str) -> None:
@@ -464,8 +478,8 @@ class SokobanModel:
         Should read the given maze file, call convert_maze function to get the grid,
         entities, and player position, and initialize the player object.
 
-        Parameters:
-            maze_file: The path to the maze file (e.g. 'maze_files/maze1.txt')
+        Args:
+            maze_file (str): The path to the maze file (e.g. 'maze_files/maze1.txt')
         """
         self._maze, self._entities, self._player_position = convert_maze(
             read_file(maze_file)[0]
@@ -482,31 +496,48 @@ class SokobanModel:
         self._potion_position = []
 
     def get_maze(self) -> Grid:
-        """Return the maze."""
+        """Return the maze.
+
+        Returns:
+            Grid: A 2D list representing the maze.
+        """
         return self._maze
 
     def get_entities(self) -> Entities:
-        """get_entities Return a dictionary mapping and updating the player position.
+        """Return a dictionary mapping and updating the player position.
 
         Returns:
-            Entities: A dictonary mapping the player position to the player object.
+            Entities: A dictonary mapping the positions of entities in the maze to their respective objects.
         """
         return self._entities
 
     def get_player_position(self) -> tuple[int, int]:
-        """Return the player position."""
+        """Return the player position.
+
+        Returns:
+            tuple[int, int]: A tuple representing the position of the player in the maze.
+        """
         return self._player_position
 
     def get_player_moves_remaining(self) -> int:
-        """Return the player moves remaining."""
+        """Return the player moves remaining.
+
+        Returns:
+            int: An integer representing the number of moves the player has remaining.
+        """
         return self._player.get_moves_remaining()
 
     def get_player_strength(self) -> int:
-        """Return the player strength."""
+        """Return the player strength.
+
+        Returns:
+            int: An integer representing the strength of the player.
+        """
         return self._player.get_strength()
 
     def attempt_move(self, direction: str) -> bool:
-        """attempt_move Handles trying to move the player in the given direction.
+        """Handles trying to move the player in the given direction.
+
 
         Tries to move the player in the given direction if possible. Any flow on effects
         from that move. (e.g. pushing a crate) should be handled here. The method should
@@ -537,10 +568,12 @@ class SokobanModel:
         """
         # Process all move directions
         current_position = self.get_player_position()
-        # Step 1:
+
+        # Step 1: Check if direction is valid
         if direction not in DIRECTION_DELTAS:
             return False
-        # Step 2: Make sure player is not blocked by wall
+
+        # Step 2: Check if player is blocked by wall
         if (
             self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
                 current_position[1] + DIRECTION_DELTAS[direction][1]
@@ -559,25 +592,34 @@ class SokobanModel:
                     current_position[1] + DIRECTION_DELTAS[direction][1]
                 ]
             ):
-                # Move crate to new position visually and in maze
-                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                    current_position[1] + DIRECTION_DELTAS[direction][1]
-                ] = Floor()
-                self._maze[current_position[0] + 2 * DIRECTION_DELTAS[direction][0]][
-                    current_position[1] + 2 * DIRECTION_DELTAS[direction][1]
-                ] = CRATE
+                # Check if the crate will move to a .is_blocking() tile
+                if (
+                    self._maze[
+                        current_position[0] + 2 * DIRECTION_DELTAS[direction][0]
+                    ][
+                        current_position[1] + 2 * DIRECTION_DELTAS[direction][1]
+                    ].is_blocking()
+                    == False
+                ):
+                    # Move crate to new position visually and in maze
+                    self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                        current_position[1] + DIRECTION_DELTAS[direction][1]
+                    ] = FLOOR
+                    self._maze[
+                        current_position[0] + 2 * DIRECTION_DELTAS[direction][0]
+                    ][current_position[1] + 2 * DIRECTION_DELTAS[direction][1]] = CRATE
 
-                # Update crate position
-                self._crate_position.append(
-                    (
-                        current_position[0] + DIRECTION_DELTAS[direction][0],
-                        current_position[1] + DIRECTION_DELTAS[direction][1],
+                    # Update crate position
+                    self._crate_position.append(
+                        (
+                            current_position[0] + DIRECTION_DELTAS[direction][0],
+                            current_position[1] + DIRECTION_DELTAS[direction][1],
+                        )
                     )
-                )
-            else:
-                return False
-        # Step 3:
-        # If moving the player to a potion, apply the effect of the potion
+                else:
+                    return False
+
+        # Step 3: Apply potion effect
         elif self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
             current_position[1] + DIRECTION_DELTAS[direction][1]
         ] in [STRENGTH_POTION, MOVE_POTION, FANCY_POTION]:
@@ -590,19 +632,21 @@ class SokobanModel:
             # Remove potion from maze
             self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
                 current_position[1] + DIRECTION_DELTAS[direction][1]
-            ] = Floor()
-        # Step 4:
-        # Remove player from previous position, unless if it is a goal
+            ] = FLOOR
+
+        # Step 4: Update player position
         if self._maze[current_position[0]][current_position[1]] != GOAL:
-            self._maze[current_position[0]][current_position[1]] = Floor()
+            self._maze[current_position[0]][current_position[1]] = FLOOR
         else:
-            self._maze[current_position[0]][current_position[1]] = Goal()
-        # Update player position
+            self._maze[current_position[0]][current_position[1]] = GOAL
+
         self._player_position = (
             current_position[0] + DIRECTION_DELTAS[direction][0],
             current_position[1] + DIRECTION_DELTAS[direction][1],
         )
+
         # Update get_entities with crate position
+        self._entities = self.get_entities()
 
         # Decrease player moves remaining by 1
         self._player.add_moves_remaining(-1)
@@ -615,12 +659,8 @@ class SokobanModel:
         """
         winning = False
         # Check if all goal positions are filled with crates
-        for i in self._goal_position:
-            if i in self._crate_position:
-                winning = True
-            else:
-                winning = False
-                break
+        if FILLED_GOAL in self._maze:
+            winning = True
         return winning
 
 
