@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uni Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Course Names:</h1>
+        <form action="{{ url_for('overview') }}" method="post">
+            {% for i in range(num_courses) %}
+                <input type="text" name="course_name" required>
+            {% endfor %}
+            <input type="submit" value="Continue">
+        </form>
+    </div>
+</body>
+</html>

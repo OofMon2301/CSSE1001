@@ -7,7 +7,6 @@ class Tile:
 
     Provides the default tile behaviour. Can be inhereted or overwritten by specific
     types of tiles.
-    __init__ methods for all tiles do not take any arguments except 'self'.
     """
 
     def __init__(self) -> None:
@@ -76,7 +75,7 @@ class Floor(Tile):
 
     def get_type(self) -> str:
         # Return " " for floor
-        return FLOOR
+        return self._type
 
 
 class Wall(Tile):
@@ -106,15 +105,15 @@ class Wall(Tile):
 
     def get_type(self) -> str:
         # Return "W" for wall
-        return WALL
+        return self._type
 
     def __str__(self) -> str:
         # Return "W" for wall
-        return WALL
+        return self._type
 
     def __repr__(self) -> str:
         # Return "W" for wall
-        return WALL
+        return self._type
 
 
 class Goal(Tile):
@@ -189,7 +188,7 @@ class Entity:
 
     def is_movable(self) -> bool:
         """Return True if the entity is movable, False otherwise.
-        By default, entities are movable.
+        By default, entities are not movable.
         """
         return False
 
@@ -437,7 +436,11 @@ def convert_maze(game: list[list[str]]) -> tuple[Grid, Entities, Position]:
         >>> player_position
         (1, 1)
     """
-    player_position = (1, 1)
+    # Check where player is and make player_position the tuple of the position
+    for i, row in enumerate(game):
+        for j, cell in enumerate(row):
+            if cell == PLAYER:
+                player_position = (i, j)
     # Creates dictionary of entities
     entities = {}
     # Check if cell is entity
@@ -483,7 +486,11 @@ class SokobanModel:
         return self._maze
 
     def get_entities(self) -> Entities:
-        """Return the entities."""
+        """get_entities Return a dictionary mapping and updating the player position.
+
+        Returns:
+            Entities: A dictonary mapping the player position to the player object.
+        """
         return self._entities
 
     def get_player_position(self) -> tuple[int, int]:
@@ -529,28 +536,154 @@ class SokobanModel:
             bool: Return True if the player moved successfully, False otherwise.
         """
         # Process all move directions
-        if direction.lower() not in DIRECTION_DELTAS:
+        current_position = self.get_player_position()
+        # Step 1:
+        if direction not in DIRECTION_DELTAS:
             return False
-        # Call direction to value in DIRECTION_DELTAS
-        # direction = DIRECTION_DELTAS[direction.lower()]
-        # Check if the path that the player is moving to has a wall
+        # Step 2: Make sure player is not blocked by wall
+        if (
+            self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                current_position[1] + DIRECTION_DELTAS[direction][1]
+            ]
+            == WALL
+        ):
+            return False
+
+        # If moving the player to a crate, check if crate can be pushed
+        if self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+            current_position[1] + DIRECTION_DELTAS[direction][1]
+        ].isdigit():
+            # Check if player strength is strictly greater than crate strength
+            if self._player.get_strength() > int(
+                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                    current_position[1] + DIRECTION_DELTAS[direction][1]
+                ]
+            ):
+                # Move crate to new position visually and in maze
+                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                    current_position[1] + DIRECTION_DELTAS[direction][1]
+                ] = Floor()
+                self._maze[current_position[0] + 2 * DIRECTION_DELTAS[direction][0]][
+                    current_position[1] + 2 * DIRECTION_DELTAS[direction][1]
+                ] = CRATE
+
+                # Update crate position
+                self._crate_position.append(
+                    (
+                        current_position[0] + DIRECTION_DELTAS[direction][0],
+                        current_position[1] + DIRECTION_DELTAS[direction][1],
+                    )
+                )
+            else:
+                return False
+        # Step 3:
+        # If moving the player to a potion, apply the effect of the potion
+        elif self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+            current_position[1] + DIRECTION_DELTAS[direction][1]
+        ] in [STRENGTH_POTION, MOVE_POTION, FANCY_POTION]:
+            # Apply potion effect
+            self._player.apply_effect(
+                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                    current_position[1] + DIRECTION_DELTAS[direction][1]
+                ].effect()
+            )
+            # Remove potion from maze
+            self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
+                current_position[1] + DIRECTION_DELTAS[direction][1]
+            ] = Floor()
+        # Step 4:
+        # Remove player from previous position, unless if it is a goal
+        if self._maze[current_position[0]][current_position[1]] != GOAL:
+            self._maze[current_position[0]][current_position[1]] = Floor()
+        else:
+            self._maze[current_position[0]][current_position[1]] = Goal()
+        # Update player position
+        self._player_position = (
+            current_position[0] + DIRECTION_DELTAS[direction][0],
+            current_position[1] + DIRECTION_DELTAS[direction][1],
+        )
+        # Update get_entities with crate position
+
+        # Decrease player moves remaining by 1
+        self._player.add_moves_remaining(-1)
+        return True
 
     def has_won(self) -> bool:
         """Return True if the player has won, False otherwise.
 
         The player has won if all goal positions are filled with crates.
         """
-        # Check if all goals are filled
-        for goal in self._goal_position:
-            if not self._maze[goal[0]][goal[1]].is_filled():
-                return False
-        return True
+        winning = False
+        # Check if all goal positions are filled with crates
+        for i in self._goal_position:
+            if i in self._crate_position:
+                winning = True
+            else:
+                winning = False
+                break
+        return winning
+
+
+class Sokoban:
+    """Represents the controller class for the game.
+
+    Responsible for instantiating the model and view class. Also handles events such as
+    user input and communication between the model and view.
+    """
+
+    def __init__(self, maze_file: str) -> None:
+        """Initialize a Sokoban object.
+
+        Should initialize the model and view classes, and call the view's draw method.
+        """
+        self._model = SokobanModel(maze_file)
+        self._view = SokobanView()
+
+    def display(self) -> None:
+        """Display the current state of the game."""
+        self._view.display_game(
+            self._model.get_maze(),
+            self._model.get_entities(),
+            self._model.get_player_position(),
+        )
+        self._view.display_stats(
+            self._model.get_player_moves_remaining(), self._model.get_player_strength()
+        )
+
+    def play_game(self) -> None:
+        """play_game Runs the main function of the game.
+
+        Runs the main loop and follows this behaviour:
+        While the game is still going, repeat the following procedure:
+        1. If the game has been won, display the game state and the message 'You won!',
+        and return.
+        2. If the game has been lost, display the message 'You lost!', and return.
+        3. Display the game state.
+        4. Prompt the user for input 'Enter move: '.
+        5. If the move is 'q', return, otherwise attempt to move the player in the given
+        direction.
+        6. If the move was invalid, display the message 'Invalid move.\n'.
+        """
+        while True:
+            if self._model.has_won():
+                self.display()
+                print("You won!")
+                return
+            if self._model.get_player_moves_remaining() == 0:
+                print("You lost!")
+                return
+            self.display()
+            direction = input("Enter move: ")
+            if direction == "q":
+                return
+            elif not self._model.attempt_move(direction):
+                print("Invalid move.\n")
 
 
 def main():
     # uncomment the lines below once you've written your Sokoban class
-    # game = Sokoban('maze_files/maze1.txt')
-    # game.play_game()
+    game = Sokoban("a2/maze_files/maze1.txt")
+    game.play_game()
     pass
 
 
