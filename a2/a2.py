@@ -1,24 +1,41 @@
 from a2_support import *
 
 
-# Write your classes here
+# Write your classes here7
 class Tile:
     """An abstract class from which all instantiable types of tiles inherit.
 
     Provides the default tile behaviour. Can be inhereted or overwritten by specific
     types of tiles.
+
+    Args:
+        _type_ (_type_): A tile object
+        can_move (bool): A boolean representing whether the tile is blocking or not
+        type (str): A string representing the type of the tile
+
+    Examples:
+        >>> tile = Tile()
+        >>> tile.is_blocking()
+        False
+        >>> tile.get_type()
+        'Abstract Tile'
+        >>> str(tile)
+        'Abstract Tile'
+        >>> tile # Note that this is a string displaying without quotation marks
+        Abstract Tile
+
     """
 
     def __init__(self) -> None:
         """Initialize a Tile object."""
-        self._can_move = True
+        self._is_blocking = False
         self._type = "Abstract Tile"
 
     def is_blocking(self) -> bool:
         """Return True if the tile is blocking, False otherwise.
         By default, tiles are non-blocking.
         """
-        return not self._can_move
+        return self._is_blocking
 
     def get_type(self) -> str:
         """Return the type of the tile.
@@ -66,12 +83,12 @@ class Floor(Tile):
 
     def __init__(self) -> None:
         """Initialize a Floor object."""
-        self._can_move = True
+        self._is_blocking = False
         self._type = FLOOR
 
     def is_blocking(self) -> bool:
         # Return False for floor
-        return False
+        return self._is_blocking
 
     def get_type(self) -> str:
         # Return " " for floor
@@ -100,7 +117,7 @@ class Wall(Tile):
 
     def __init__(self) -> None:
         """Initialize a Wall object."""
-        self._can_move = False
+        self._is_blocking = True
         self._type = WALL
 
     def get_type(self) -> str:
@@ -115,6 +132,10 @@ class Wall(Tile):
         # Return "W" for wall
         return self._type
 
+    def is_blocking(self) -> bool:
+        # Return True for wall
+        return self._is_blocking
+
 
 class Goal(Tile):
     """Goal is a basic type of tile that represents a goal location for a box.
@@ -126,18 +147,31 @@ class Goal(Tile):
     When goal tile is filled, __str__ and __repr__ will return "X".
 
     Args:
-        Tile (_type_): _description_
+        Tile (_type_): A tile object
+        can_move (bool): A boolean representing whether the tile is blocking or not
+        type (str): A string representing the type of the tile
+
+    Examples:
+        >>> goal = Goal()
+        >>> goal.is_blocking()
+        False
+        >>> goal.get_type()
+        'G'
+        >>> str(goal)
+        'G'
+        >>> goal # Note that this is a string displaying without quotation marks
+        G
     """
 
     def __init__(self) -> None:
         """Initialize a Goal object."""
-        self._can_move = True
+        self._is_blocking = False
         self._type = GOAL
         self._filled = False
 
     def is_blocking(self) -> bool:
         # Return False for goal
-        return False
+        return self._is_blocking
 
     def get_type(self) -> str:
         # Return "G" for empty goal
@@ -170,6 +204,22 @@ class Entity:
     """Abstract class for all entities in the game.
 
     The __init__ methods for this class do not take any arguments except 'self'.
+
+    Args:
+        _type_ (_type_): An entity object
+        tile (_type_): A tile object, returns None if no tile is present
+
+    Examples:
+        >>> entity = Entity()
+        >>> entity.get_type()
+        'Abstract Entity'
+        >>> entity.is_movable()
+        False
+        >>> str(entity)
+        'Abstract Entity'
+        >>> entity # Note that this is a string displaying without quotation marks
+        Abstract Entity
+
     """
 
     def __init__(self) -> None:
@@ -273,6 +323,20 @@ class Potion(Entity):
     Potions are not moveable.
     An abstract potion is represented by 'Potion' and has no effect.
 
+    Args:
+        Entity (_type_): _description_
+
+    Examples:
+        >>> potion = Potion()
+        >>> potion.get_type()
+        'Potion'
+        >>> potion.is_movable()
+        False
+        >>> str(potion)
+        'Potion'
+        >>> potion # Note that this is a string displaying without quotation marks
+        Potion
+
     """
 
     def __init__(self) -> None:
@@ -310,6 +374,18 @@ class StrengthPotion(Potion):
 
     Args:
         Potion (_type_): a potion object
+
+    Examples:
+        >>> strength_potion = StrengthPotion()
+        >>> strength_potion.get_type()
+        'S'
+        >>> strength_potion.effect()
+        {'strength': 2}
+        >>> str(strength_potion)
+        'S'
+        >>> strength_potion # Note that this is a string displaying without quotation marks
+        S
+
     """
 
     def __init__(self) -> None:
@@ -327,6 +403,18 @@ class MovePotion(Potion):
 
     Args:
         Potion (_type_): a potion object
+
+    Examples:
+        >>> move_potion = MovePotion()
+        >>> move_potion.get_type()
+        'M'
+        >>> move_potion.effect()
+        {'moves': 1}
+        >>> str(move_potion)
+        'M'
+        >>> move_potion # Note that this is a string displaying without quotation marks
+        M
+
     """
 
     def __init__(self) -> None:
@@ -344,6 +432,18 @@ class FancyPotion(Potion):
 
     Args:
         Potion (_type_): a potion object
+
+    Examples:
+        >>> fancy_potion = FancyPotion()
+        >>> fancy_potion.get_type()
+        'F'
+        >>> fancy_potion.effect()
+        {'moves': 2, 'strength': 2}
+        >>> str(fancy_potion)
+        'F'
+        >>> fancy_potion # Note that this is a string displaying without quotation marks
+        F
+
     """
 
     def __init__(self) -> None:
@@ -362,7 +462,32 @@ class Player(Entity):
 
 
     Args:
-        Entity (_type_): _description_
+        Entity (_type_): Entity is a parent class of Player
+        type (str): A string representing the type of the entity.
+        start_strength (int): An integer representing the starting strength of the player.
+        moves_remaining (int): An integer representing the number of moves the player has
+        remaining.
+
+    Examples:
+        >>> player = Player(5, 10)
+        >>> player.get_type()
+        'P'
+        >>> player.is_movable()
+        True
+        >>> str(player)
+        'P'
+        >>> player # Note that this is a string displaying without quotation marks
+        P
+        >>> player.get_strength() # Note that this is an integer
+        5
+        >>> player.get_moves_remaining() # Note that this is an integer
+        10
+        >>> player.add_strength(2)
+        >>> player.get_strength()
+        7
+        >>> player.add_moves_remaining(5)
+        >>> player.get_moves_remaining()
+        15
     """
 
     def __init__(self, start_strength: int, moves_remaining: int) -> None:
@@ -386,6 +511,10 @@ class Player(Entity):
     def get_moves_remaining(self) -> int:
         """Return the player's moves remaining."""
         return self._start_moves
+
+    def is_movable(self) -> bool:
+        """Return True if the player is movable, False otherwise."""
+        return self._start_moves > 0
 
     def add_moves_remaining(self, amount: int) -> None:
         """Add moves to the player."""
@@ -436,20 +565,48 @@ def convert_maze(game: list[list[str]]) -> tuple[Grid, Entities, Position]:
         >>> player_position
         (1, 1)
     """
+    # Change the maze so it removes the quotation marks
+    # Example: ["W", "W", W, "W"] -> [W, W, W, W]
+    # Please return the str without quotation marks in the list when you append
+    W = Wall()
+    F = Floor()
+    G = Goal()
+    # There can be multiple crates, goals and potions
+
+    Grid = []
+    for grid in game:
+        # Turn into a 8x8 grid
+        row = []
+        for cell in grid:
+            if cell == WALL:
+                row.append(W)
+            elif cell == FLOOR:
+                row.append(F)
+            elif cell == GOAL:
+                row.append(G)
+            elif cell.isdigit():
+                row.append(F)
+            elif cell == PLAYER:
+                row.append(F)
+            elif cell in [STRENGTH_POTION, MOVE_POTION, FANCY_POTION]:
+                row.append(F)
+        Grid.append(row)
+
+    Entities = {}
+    for i, row in enumerate(game):
+        for j, cell in enumerate(row):
+            if cell.isdigit():
+                Entities[(i, j)] = Crate(int(cell))
+            elif cell in [STRENGTH_POTION, MOVE_POTION, FANCY_POTION]:
+                Entities[(i, j)] = cell
+
     # Check where player is and make player_position the tuple of the position
     for i, row in enumerate(game):
         for j, cell in enumerate(row):
             if cell == PLAYER:
-                player_position = (i, j)
-    # Creates dictionary of entities
-    entities = {}
-    # Check if cell is entity
-    for i, row in enumerate(game):
-        for j, cell in enumerate(row):
-            if cell.isdigit():
-                entities[(i, j)] = int(cell)
+                Position = (i, j)
 
-    return game, entities, player_position
+    return Grid, Entities, Position
 
 
 class SokobanModel:
@@ -496,7 +653,7 @@ class SokobanModel:
         self._potion_position = []
 
     def get_maze(self) -> Grid:
-        """Return the maze.
+        """Return the updated maze from convert_maze.
 
         Returns:
             Grid: A 2D list representing the maze.
@@ -567,90 +724,102 @@ class SokobanModel:
             bool: Return True if the player moved successfully, False otherwise.
         """
         # Process all move directions
+        # Get player position
         current_position = self.get_player_position()
 
-        # Step 1: Check if direction is valid
-        if direction not in DIRECTION_DELTAS:
+        # Step 1: Check if the direction is valid
+        if direction not in [UP, DOWN, LEFT, RIGHT] or not DIRECTION_DELTAS:
             return False
 
-        # Step 2: Check if player is blocked by wall
+        entities = self.get_entities()  # Will return a dictionary of all the entities
+        current_position_x = current_position[0]
+        current_position_y = current_position[1]
+        new_position_x = current_position_x + DIRECTION_DELTAS[direction][0]
+        new_position_y = current_position_y + DIRECTION_DELTAS[direction][1]
+
+        # Step 2: Check if position is out of bounds or blocked
+        # Check for out of bounds
         if (
-            self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                current_position[1] + DIRECTION_DELTAS[direction][1]
-            ]
-            == WALL
+            new_position_x < 0
+            or new_position_x >= len(self._maze)
+            or new_position_y < 0
+            or new_position_y >= len(self._maze[0])
         ):
             return False
-
-        # If moving the player to a crate, check if crate can be pushed
-        if self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-            current_position[1] + DIRECTION_DELTAS[direction][1]
-        ].isdigit():
-            # Check if player strength is strictly greater than crate strength
-            if self._player.get_strength() > int(
-                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                    current_position[1] + DIRECTION_DELTAS[direction][1]
-                ]
+            # Check for blocked
+        if self._maze[new_position_x][new_position_y].is_blocking():
+            return False
+        if str(self._maze[new_position_x][new_position_y]).isdigit():
+            # Check if crate can be pushed by strength
+            if self.get_player_strength() < int(
+                self._maze[new_position_x][new_position_y]
             ):
-                # Check if the crate will move to a .is_blocking() tile
+                return False
+            else:
+                # Move crate and player
+                # Step 1: Move crate
+                # Step 2: Move player
+                # Step 3: Update player position
+                # Step 4: Decrease player moves remaining by 1
+                # Step 5: Return True
+                
+                
+                # Step 1: Move crate
+                # Get crate position
+                crate_position = (new_position_x, new_position_y)
+                # Get crate
+                crate = self._entities[crate_position]
+                # Get new crate position
+                new_crate_position_x = (
+                    crate_position[0] + DIRECTION_DELTAS[direction][0]
+                )
+                new_crate_position_y = (
+                    crate_position[1] + DIRECTION_DELTAS[direction][1]
+                )
+                # Check if new crate position is out of bounds
                 if (
-                    self._maze[
-                        current_position[0] + 2 * DIRECTION_DELTAS[direction][0]
-                    ][
-                        current_position[1] + 2 * DIRECTION_DELTAS[direction][1]
-                    ].is_blocking()
-                    == False
+                    new_crate_position_x < 0
+                    or new_crate_position_x >= len(self._maze)
+                    or new_crate_position_y < 0
+                    or new_crate_position_y >= len(self._maze[0])
                 ):
-                    # Move crate to new position visually and in maze
-                    self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                        current_position[1] + DIRECTION_DELTAS[direction][1]
-                    ] = FLOOR
-                    self._maze[
-                        current_position[0] + 2 * DIRECTION_DELTAS[direction][0]
-                    ][current_position[1] + 2 * DIRECTION_DELTAS[direction][1]] = CRATE
-
-                    # Update crate position
-                    self._crate_position.append(
-                        (
-                            current_position[0] + DIRECTION_DELTAS[direction][0],
-                            current_position[1] + DIRECTION_DELTAS[direction][1],
-                        )
-                    )
-                else:
                     return False
-
-        # Step 3: Apply potion effect
-        elif self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-            current_position[1] + DIRECTION_DELTAS[direction][1]
-        ] in [STRENGTH_POTION, MOVE_POTION, FANCY_POTION]:
-            # Apply potion effect
-            self._player.apply_effect(
-                self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                    current_position[1] + DIRECTION_DELTAS[direction][1]
-                ].effect()
-            )
-            # Remove potion from maze
-            self._maze[current_position[0] + DIRECTION_DELTAS[direction][0]][
-                current_position[1] + DIRECTION_DELTAS[direction][1]
-            ] = FLOOR
-
-        # Step 4: Update player position
-        if self._maze[current_position[0]][current_position[1]] != GOAL:
-            self._maze[current_position[0]][current_position[1]] = FLOOR
+                # Check if new crate position is blocked
+                if self._maze[new_crate_position_x][new_crate_position_y].is_blocking():
+                    return False
+                # Check if new crate position is a goal
+                if (
+                    self._maze[new_crate_position_x][new_crate_position_y].get_type()
+                    == GOAL
+                ):
+                    # Fill goal position
+                    # Check if the position if the position is Goal()
+                    if self._maze[new_crate_position_x][
+                        new_crate_position_y
+                    ].is_filled():
+                        pass
+                    else:
+                        self._maze[new_crate_position_x][new_crate_position_y].fill()
+                        # Update crate position
+                        self._entities[
+                            (new_crate_position_x, new_crate_position_y)
+                        ] = crate
+                        # Remove old crate position
+                        self._entities.pop(crate_position)
+                    # self._maze[new_crate_position_x][new_crate_position_y].fill()
+                # Update crate position
+                self._entities[(new_crate_position_x, new_crate_position_y)] = crate
+                # Remove old crate position
+                self._entities.pop(crate_position)
         else:
-            self._maze[current_position[0]][current_position[1]] = GOAL
-
-        self._player_position = (
-            current_position[0] + DIRECTION_DELTAS[direction][0],
-            current_position[1] + DIRECTION_DELTAS[direction][1],
-        )
-
-        # Update get_entities with crate position
-        self._entities = self.get_entities()
-
-        # Decrease player moves remaining by 1
-        self._player.add_moves_remaining(-1)
-        return True
+            # Step 2: Move player
+            # Update player position
+            self._player_position = (new_position_x, new_position_y)
+            # Step 3: Update player moves remaining
+            self._player.add_moves_remaining(-1)
+            # Step 4: Return True
+            return True
+        # Step 3: Check if player is moving to an entity
 
     def has_won(self) -> bool:
         """Return True if the player has won, False otherwise.
@@ -717,13 +886,13 @@ class Sokoban:
             if direction == "q":
                 return
             elif not self._model.attempt_move(direction):
-                print("Invalid move.\n")
+                print("Invalid move\n")
 
 
 def main():
     # uncomment the lines below once you've written your Sokoban class
-    game = Sokoban("a2/maze_files/maze1.txt")
-    game.play_game()
+    # game = Sokoban("a2/maze_files/maze3.txt")
+    # game.play_game()
     pass
 
 
