@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec5dd6e8-aa3f-4eae-9586-f77e7beaa3c4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Assignment 1/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment 1/tetsiugn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/apology" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/course_info.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/static/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/templates/course.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/flask-server/templates/overview.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA CALC2/main_prompt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/config/dbConfig.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/controllers/gradesController.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/models/gradeModel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/routes/grades.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/backend/src/utils/calculationUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/frontend/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/frontend/src/scripts/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GPA Calc/frontend/src/styles/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Uni Calculator/course_info.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Uni Calculator/course_names.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Uni Calculator/flask-server/server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Uni Calculator/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/a1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/awekdhsfl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/constants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/gameplay/7030_example_5_pieces_2_grid_size.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/gameplay/7030_example_9_pieces_6_grid_size.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/gameplay/stalemate_example_9_pieces.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/gameplay/win_and_replay_example_6_pieces.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/import tkinter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/a1.test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/a2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/constants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/testing1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/testing2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/testing3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test/testing4.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/test_a1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/testignkdfbk.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../a1/testing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/a2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backup of attempt_move.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2 real/a2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2_support.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_examples/maze1_invalid_moves_and_loss_example.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_examples/maze1_simple_win_example.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_examples/maze2_potions_and_heavy_crates_example.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_examples/maze3_7030_undo_examples.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_examples/maze3_fancy_potion_example.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maze_files/maze1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maze_files/maze2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maze_files/maze3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../course_info.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../course_names.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../functions.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../functionstest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../functionstest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gpt-engineer" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nicescript.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2ValU31zxIAWd9UEm4HRnldIC0C" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/jamie/OneDrive/2023/CSSE1001/a2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="a2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="a2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/a2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.a2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec5dd6e8-aa3f-4eae-9586-f77e7beaa3c4" name="Changes" comment="" />
+      <created>1695082083225</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695082083225</updated>
+      <workItem from="1695082084291" duration="292000" />
+      <workItem from="1695712869463" duration="347000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/a2$a2.coverage" NAME="a2 Coverage Results" MODIFIED="1695082342866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
