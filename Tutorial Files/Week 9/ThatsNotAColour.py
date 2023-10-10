@@ -7,6 +7,7 @@ __copyright__ = "Copyright 2018, University of Queensland"
 
 
 import tkinter as tk
+from tkinter import messagebox
 
 
 class SampleApp(object) :
@@ -119,7 +120,7 @@ class SampleApp(object) :
             ]:
             return self._lbl.config(bg=self._entry.get()) or self._lbl.config(text="This label is " + self._entry.get())
         else:
-            return self._lbl.config(text="That is not a colour!")
+            return messagebox.showerror("Invalid Colour",  self._entry.get() +" is not a colour!")
 
 if __name__ == "__main__" :
     root = tk.Tk()
