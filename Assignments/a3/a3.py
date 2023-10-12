@@ -188,7 +188,13 @@ class FancySokobanView:
         """
         # Sets up the title banner
         title_banner = tk.Frame(master)
-        title_banner.pack(fill=tk.X)
+        # Gets the banner image and put on top of the window
+        get_image(
+            "Assignments/a3/images/banner.png",
+            (MAZE_SIZE + SHOP_WIDTH, BANNER_HEIGHT),
+        )
+
+        title_banner.pack(side="top", fill=tk.X)
         master.title("Extra Fancy Sokoban")
 
         # Sets up the game view
