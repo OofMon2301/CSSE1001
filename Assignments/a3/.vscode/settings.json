@@ -1,0 +1,6 @@
+{
+    "python.analysis.typeCheckingMode": "off",
+    "black-formatter.args": [
+        "-l 80"
+    ]
+}
