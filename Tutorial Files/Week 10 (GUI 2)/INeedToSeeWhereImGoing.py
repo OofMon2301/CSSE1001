@@ -26,6 +26,8 @@ class SettingsFrame(tk.Frame):
         )
         self._preview_button.pack(side=tk.RIGHT)
 
+        self._lines = lines = []
+
     def _toggle_preview(self):
         """Toggle the line preview on/off."""
         if self.is_preview_on():
@@ -76,16 +78,11 @@ class DrawingApp(object):
                 self._canvas.create_line(
                     coord1[0], coord1[1], coord2[0], coord2[1]
                 )
+                # Add coordinates to the list
+                self._settings._lines.append(coord1)
+                self._settings._lines.append(coord2)
                 coord1 = None
                 coord2 = None
-            # Add a preview of the line you are drawing
-            if self._settings.is_preview_on():
-                self._canvas.delete("preview")
-                self._canvas.create_line(
-                    coord1[0], coord1[1], event.x, event.y, tags="preview"
-                )
-            else:
-                self._canvas.delete("preview")
 
         self._canvas.bind("<Button-1>", draw_line)
 
@@ -114,6 +111,32 @@ class DrawingApp(object):
     def clear(self):
         """Delete all lines from the application."""
         self._canvas.delete(tk.ALL)
+        # Rewrite all info that was in the list
+        for i in range(len(self._settings._lines)):
+            self._canvas.create_line(
+                self._settings._lines[i][0],
+                self._settings._lines[i][1],
+                self._settings._lines[i + 1][0],
+                self._settings._lines[i + 1][1],
+            )
+
+    def set_preview(self):
+        """Toggle the line preview on/off."""
+        if self._settings.is_preview_on():
+            # Show a preview of where the line will be drawn and follows the
+            # mouse cursor.
+            self.clear()
+            # Then preview the lines
+            for i in range(len(self._settings._lines)):
+                self._canvas.create_line(
+                    self._settings._lines[i][0], 
+                    self._settings._lines[i][1],
+                    self._settings._lines[i + 1][0],
+                    self._settings._lines[i + 1][1],
+                )
+        else:
+            # Remove the preview of where the line will be drawn.
+            self.clear()
 
 
 if __name__ == "__main__":
