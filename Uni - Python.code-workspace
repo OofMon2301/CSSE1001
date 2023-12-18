@@ -1,24 +1,35 @@
 {
 	"folders": [
 		{
+			"name": "ENGG1100",
 			"path": "../ENGG1100"
 		},
 		{
+			"name": "MATH1050",
 			"path": "../MATH1050"
 		},
 		{
+			"name": "MATH1061",
 			"path": "../MATH1061"
 		},
 		{
+			"name": "MATH1051",
 			"path": "../MATH1051"
 		},
 		{
+			"name": "CSSE1001",
 			"path": "."
 		},
 		{
+			"name": "MATH1052",
+			"path": "../MATH1052"
+		},
+		{
+			"name": "ENGG1300",
 			"path": "../ENGG1300"
 		},
 		{
+			"name": "Work",
 			"path": "../Work"
 		}
 	],
